@@ -38,22 +38,47 @@
 	</bean>
 
 	<!-- 3.配置SqlSessionFactory对象 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<!-- 注入数据库连接池 -->
-		<property name="dataSource" ref="dataSource" />
-		<!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
-		<property name="configLocation" value="classpath:mybatis-config.xml" />
-		<!-- 扫描entity包 使用别名 -->
-		<property name="typeAliasesPackage" value="com.mzc.o2o.entity" />
-		<!-- 扫描sql配置文件:mapper需要的xml文件 -->
-		<property name="mapperLocations" value="classpath:mapper/*.xml" />
-	</bean>
+	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+		<!--&lt;!&ndash; 注入数据库连接池 &ndash;&gt;-->
+		<!--<property name="dataSource" ref="dataSource" />-->
+		<!--&lt;!&ndash; 配置MyBaties全局配置文件:mybatis-config.xml &ndash;&gt;-->
+		<!--<property name="configLocation" value="classpath:mybatis-config.xml" />-->
+		<!--&lt;!&ndash; 扫描entity包 使用别名 &ndash;&gt;-->
+		<!--<property name="typeAliasesPackage" value="com.mzc.o2o.entity" />-->
+		<!--&lt;!&ndash; 扫描sql配置文件:mapper需要的xml文件 &ndash;&gt;-->
+		<!--<property name="mapperLocations" value="classpath:mapper/*.xml" />-->
+	<!--</bean>-->
 
 	<!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<!-- 注入sqlSessionFactory -->
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-		<!-- 给出需要扫描Dao接口包 -->
-		<property name="basePackage" value="com.mzc.o2o.dao" />
+	<!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+		<!--&lt;!&ndash; 注入sqlSessionFactory &ndash;&gt;-->
+		<!--<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />-->
+		<!--&lt;!&ndash; 给出需要扫描Dao接口包 &ndash;&gt;-->
+		<!--<property name="basePackage" value="com.mzc.o2o.dao" />-->
+	<!--</bean>-->
+
+	<!-- 3、配置mybatis-plus的sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<property name="typeAliasesPackage" value="com.mzc.o2o.entity"/>
+
+        <property name="globalConfig" ref="globalConfiguration"/>
 	</bean>
+
+	<!-- 4、DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.mzc.o2o.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+	</bean>
+
+    <!-- 5、mybatisplus的全局策略配置 -->
+    <bean id="globalConfiguration" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+        <!-- 2.3版本后，驼峰命名默认值就是true，所以可不配置 -->
+        <!--<property name="dbColumnUnderline" value="true"/>-->
+        <!-- 全局主键自增策略，0表示auto -->
+        <property name="idType" value="0"/>
+        <!-- 全局表前缀配置 -->
+        <property name="tablePrefix" value="tb_"/>
+    </bean>
 </beans>

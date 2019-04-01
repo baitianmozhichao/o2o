@@ -6,5 +6,9 @@ import java.util.List;
 
 public interface AreaService {
 
-	List<Area> getAreaList();
+	List<Area> getAllArea();
+
+	Area getAreaById(Integer areaId);
+
+	int addArea(Area area);
 }

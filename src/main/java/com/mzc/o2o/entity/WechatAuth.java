@@ -1,19 +1,48 @@
 package com.mzc.o2o.entity;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.annotations.TableId;
 
 import java.util.Date;
 
-/**
- * @Description:
- * @Auther: mzc
- * @Date: 2019/3/27 21:37
- */
-@Data
 public class WechatAuth {
-    private Long wechatAuthId;
+    @TableId
+    private Integer wechatAuthId;
+
+    private Integer userId;
+
     private String openId;
+
     private Date createTime;
 
-    private PersonInfo user;
+    public Integer getWechatAuthId() {
+        return wechatAuthId;
+    }
+
+    public void setWechatAuthId(Integer wechatAuthId) {
+        this.wechatAuthId = wechatAuthId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

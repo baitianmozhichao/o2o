@@ -4,27 +4,28 @@ import com.baomidou.mybatisplus.annotations.TableId;
 
 import java.util.Date;
 
-public class LocalAuth {
-
+public class UserShopMap {
     @TableId
-    private Integer localAuthId;
+    private Integer userShopId;
 
     private Integer userId;
 
+    private Integer shopId;
+
     private String userName;
 
-    private String password;
+    private String shopName;
 
     private Date createTime;
 
-    private Date lastEditTime;
+    private Integer point;
 
-    public Integer getLocalAuthId() {
-        return localAuthId;
+    public Integer getUserShopId() {
+        return userShopId;
     }
 
-    public void setLocalAuthId(Integer localAuthId) {
-        this.localAuthId = localAuthId;
+    public void setUserShopId(Integer userShopId) {
+        this.userShopId = userShopId;
     }
 
     public Integer getUserId() {
@@ -35,6 +36,14 @@ public class LocalAuth {
         this.userId = userId;
     }
 
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -43,12 +52,12 @@ public class LocalAuth {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getPassword() {
-        return password;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+    public void setShopName(String shopName) {
+        this.shopName = shopName == null ? null : shopName.trim();
     }
 
     public Date getCreateTime() {
@@ -59,11 +68,11 @@ public class LocalAuth {
         this.createTime = createTime;
     }
 
-    public Date getLastEditTime() {
-        return lastEditTime;
+    public Integer getPoint() {
+        return point;
     }
 
-    public void setLastEditTime(Date lastEditTime) {
-        this.lastEditTime = lastEditTime;
+    public void setPoint(Integer point) {
+        this.point = point;
     }
 }

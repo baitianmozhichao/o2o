@@ -20,7 +20,17 @@ public class AreaServiceImpl implements AreaService {
     private AreaDao areaDao;
 
     @Override
-    public List<Area> getAreaList() {
-        return areaDao.queryArea();
+    public List<Area> getAllArea() {
+        return areaDao.selectList(null);
+    }
+
+    @Override
+    public Area getAreaById(Integer areaId) {
+        return areaDao.selectById(areaId);
+    }
+
+    @Override
+    public int addArea(Area area) {
+        return areaDao.insert(area);
     }
 }
