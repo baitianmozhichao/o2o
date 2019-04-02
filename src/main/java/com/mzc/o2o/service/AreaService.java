@@ -4,11 +4,7 @@ import com.mzc.o2o.entity.Area;
 
 import java.util.List;
 
-public interface AreaService {
+public interface AreaService extends BaseService<Area>{
 
-	List<Area> getAllArea();
-
-	Area getAreaById(Integer areaId);
-
-	int addArea(Area area);
+    List<Area> queryList(Integer current, Integer size);
 }
