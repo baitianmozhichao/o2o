@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Service
 public class AreaServiceImpl extends BaseServiceImpl<Area> implements AreaService {
+
     @Override
     public List<Area> queryList(Integer current, Integer size) {
         return dao.selectPage(new Page<>(current,size),null);

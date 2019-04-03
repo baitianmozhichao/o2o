@@ -2,6 +2,7 @@ package com.mzc.o2o.service.impl;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.mzc.o2o.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  */
 public class BaseServiceImpl<T> implements BaseService<T> {
 
+    @Autowired
     BaseMapper<T> dao;
 
     @Override
