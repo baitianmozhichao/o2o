@@ -7,16 +7,16 @@ import com.mzc.o2o.vo.ResultVo;
  * @Auther: mzc
  * @Date: 2019/4/2 22:34
  */
-public class BaseController {
-    public ResultVo buildEmptyResultVo() {
-        ResultVo resultVo = new ResultVo();
-        resultVo.setResultCode("T");
-        resultVo.setResultMsg("无记录");
+public class BaseController<T> {
+    public ResultVo<T> buildEmptyResultVo() {
+        ResultVo<T> resultVo = new ResultVo<>();
+        resultVo.setResultCode("F");
+        resultVo.setResultMsg("操作失败");
         return resultVo;
     }
 
-    public ResultVo buildResultVo(Object moudule, Integer count) {
-        ResultVo resultVo = new ResultVo();
+    public ResultVo<T> buildResultVo(T moudule, Integer count) {
+        ResultVo<T> resultVo = new ResultVo<>();
         resultVo.setResultCode("T");
         resultVo.setResultMsg("返回成功");
         resultVo.setMoudule(moudule);
