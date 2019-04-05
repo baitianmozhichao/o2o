@@ -22,21 +22,21 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
 
     //商铺大分类
     $scope.getParentShopCat = function(){
-        $http.get("../../../shopCategory/getRootCats").success(function (data) {
+        $http.get("/o2o/shopCategory/getRootCats").success(function (data) {
             $scope.parentCatList = data.moudule;
         })
     };
 
     //商铺详细分类
     $scope.$watch('regShop.parentCategoryId',function (newVal) {
-        $http.get("../../../shopCategory/getByParentId/"+newVal).success(function (data) {
+        $http.get("/o2o/shopCategory/getByParentId/"+newVal).success(function (data) {
             $scope.shopCatList = data.moudule;
         })
     });
 
     //区域分类
     $scope.getAreaCat = function(){
-        $http.get("../../../area/getAll").success(function (data) {
+        $http.get("/o2o/area/getAll").success(function (data) {
             $scope.areaCatList = data.moudule;
         })
     };
@@ -51,7 +51,7 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
     $scope.initInfo();
 
     $scope.checkShopName = function(shopName){
-        $http.get("../../../shop/getCountByName/"+shopName).success(function (data) {
+        $http.get("/o2o/shop/getCountByName/"+shopName).success(function (data) {
             if(data.count > 0){
                 flags[0] = false;
                 $.toast("已存在该店铺名，请换一个");
@@ -63,7 +63,7 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
 
     //检查输入的店长，并获取其id
     $scope.checkOwner = function(name){
-        $http.get("../../../personInfo/findByName/"+name).success(function (data) {
+        $http.get("/o2o/personInfo/findByName/"+name).success(function (data) {
             if(data.count === 1){
                 $scope.regShop.ownerId = data.moudule.userId;
                 flags[1] = true;
@@ -84,7 +84,7 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
         }
     };
 
-    //注册商铺
+    //注册商铺，入口
     $scope.subAddShop = function () {
         if($scope.regShop.shopName === ''
             ||$scope.regShop.parentCategoryId===''
@@ -108,6 +108,7 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
         })
     };
 
+    //注册店铺
     $scope.register = function () {
         var formdata = new FormData();
         formdata.append('file', file.files[0]);
@@ -115,7 +116,7 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
         var regShopStr = JSON.stringify($scope.regShop);
         formdata.append('regShopStr',regShopStr);
         return $http({
-            url:'../../../shop/addShop.do',
+            url:'/o2o/shop/addShop.do',
             method:'post',
             data:formdata,
             headers: {'Content-Type':undefined},
