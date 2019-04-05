@@ -7,7 +7,10 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
 
     $scope.ownerName = '';
 
-    var flags = [false,false,false]
+    var flags = [false,false,false];
+
+    //验证码
+    $scope.verifyCode = '';
 
     $scope.regShop = {
         shopName:'',//
@@ -93,7 +96,8 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
             ||$scope.regShop.shopDesc === ''
             ||$scope.regShop.shopAddr === ''
             ||$scope.regShop.ownerId === ''
-            ||$scope.regShop.phone === ''){
+            ||$scope.regShop.phone === ''
+            ||$scope.verifyCode === ''){
             $.toast("请填写全部信息");
             return
         }
@@ -102,7 +106,11 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
             return
         }
         $scope.register().success(function (response) {
-            $.toast("恭喜注册店铺【"+$scope.regShop.shopName+"】成功")
+            if(response.resultCode === 'F'){
+                $.toast("注册失败，验证码输入错误")
+            }else {
+                $.toast("恭喜注册店铺【"+$scope.regShop.shopName+"】成功")
+            }
         }).error(function () {
             $.toast("注册失败，请联系管理员:18826139502")
         })
@@ -115,6 +123,7 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
         // formdata.append('shop',$scope.regShop);
         var regShopStr = JSON.stringify($scope.regShop);
         formdata.append('regShopStr',regShopStr);
+        formdata.append('verifyCode',$scope.verifyCode);
         return $http({
             url:'/o2o/shop/addShop.do',
             method:'post',
@@ -122,5 +131,11 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
             headers: {'Content-Type':undefined},
             transformRequest: angular.identity
         })
+    };
+
+    //更换验证码
+    $scope.changeVerifyCode = function () {
+        var img = $('#verifyCode_img')[0];
+        img.src = "/o2o/Kaptcha?"+Math.floor(Math.random() * 100);
     }
 });
