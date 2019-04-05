@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.List;
 
 /**
@@ -27,10 +29,10 @@ public class AreaController extends BaseController{
     @Autowired
     private AreaService areaService;
 
-    @GetMapping("/areaList/{current}/{size}")
-    public ResultVo areaList(@PathVariable("current")Integer current,@PathVariable("size")Integer size) {
+    @GetMapping("/getAll")
+    public ResultVo getAll() {
         try {
-            List<Area> areaList = areaService.queryList(current,size);
+            List<Area> areaList = areaService.queryList();
             return buildResultVo(areaList,areaList.size());
         } catch (Exception e) {
             return buildEmptyResultVo();
@@ -51,4 +53,17 @@ public class AreaController extends BaseController{
         return buildResultVo(areaService.query(areaId),1);
     }
 
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new FileReader("E:/2.txt"));
+        String line;
+        StringBuilder result = new StringBuilder();
+//      Integer agentTel = vehInfVo.getAgentTel();
+        while ((line = br.readLine()) != null) {
+            char[] cs = line.toCharArray();
+            cs[0]+=32;
+            System.out.println("Integer "+String.valueOf(cs)+" = "+"vehInfVo.get"+line+"();");
+        }
+        br.close();
+        System.out.println(result.toString());
+    }
 }

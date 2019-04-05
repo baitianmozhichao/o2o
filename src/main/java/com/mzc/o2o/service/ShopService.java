@@ -8,4 +8,6 @@ import com.mzc.o2o.entity.Shop;
  * @Date: 2019/3/31 22:13
  */
 public interface ShopService extends BaseService<Shop>{
+
+    Integer getCountByName(String shopName);
 }

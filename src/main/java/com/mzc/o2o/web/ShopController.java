@@ -1,14 +1,16 @@
 package com.mzc.o2o.web;
 
-import com.mzc.o2o.common.CommonConst;
 import com.mzc.o2o.entity.Shop;
 import com.mzc.o2o.enums.ShopStateEnum;
 import com.mzc.o2o.service.ShopService;
-import com.mzc.o2o.util.FastDFSClient;
+import com.mzc.o2o.util.FileUploadUtil;
 import com.mzc.o2o.vo.ResultVo;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,13 +31,15 @@ public class ShopController extends BaseController {
     private ShopService shopService;
 
     @PostMapping("/addShop")
-    public ResultVo<Shop> addShop(Shop shop, @RequestParam("file") MultipartFile file) {
+    public ResultVo<Shop> addShop(String regShopStr, @RequestParam(value = "file",required = false) MultipartFile file) {
+        JSONObject jsonObj = JSONObject.fromObject(regShopStr);
+        Shop shop = (Shop) JSONObject.toBean(jsonObj,Shop.class);
         if (shop == null || StringUtils.isBlank(shop.getOwnerId() + "") || StringUtils.isBlank(shop.getShopName())) {
             throw new RuntimeException("shop新增，参数错误,shop:[" + shop + "]");
         }
         String url = "";
         if (file != null) {
-            url = uploadFile(file);
+            url = FileUploadUtil.uploadFile(file);
         }
         shop.setShopImg(url);
         shop.setCreateTime(new Date());
@@ -56,7 +60,7 @@ public class ShopController extends BaseController {
         }
         String url = "";
         if (file != null) {
-            url = uploadFile(file);
+            url = FileUploadUtil.uploadFile(file);
         }
         shop.setShopImg(url);
         shop.setLastEditTime(new Date());
@@ -67,17 +71,9 @@ public class ShopController extends BaseController {
         return buildResultVo(shop, effectiveNum);
     }
 
-    private String uploadFile(MultipartFile file) {
-        String originalFilename = file.getOriginalFilename();
-        String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-        String url = "";
-        try {
-            FastDFSClient fastDFSClient = new FastDFSClient();
-            String path = fastDFSClient.uploadFile(file.getBytes(), extName);
-            url = CommonConst.FILE_SERVER_URL + path;
-        } catch (Exception e) {
-            log.error("shop:上传图片失败..." + e);
-        }
-        return url;
+    @GetMapping("/getCountByName/{shopName}")
+    public ResultVo<String> getCountByName(@PathVariable("shopName") String shopName){
+        Integer count = shopService.getCountByName(shopName);
+        return buildResultVo("",count);
     }
 }
