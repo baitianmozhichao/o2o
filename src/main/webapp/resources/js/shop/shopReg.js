@@ -109,6 +109,7 @@ shopApp.controller('shopRegCtrl', function($scope,$http) {
             if(response.resultCode === 'F'){
                 $.toast("注册失败，验证码输入错误")
             }else {
+                flags = [false,false,false];
                 $.toast("恭喜注册店铺【"+$scope.regShop.shopName+"】成功")
             }
         }).error(function () {
