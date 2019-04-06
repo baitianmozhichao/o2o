@@ -47,7 +47,9 @@
                             <div class="item-inner">
                                 <div class="item-title label">商铺名称</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="商铺名称" ng-model="regShop.shopName" ng-blur="checkShopName(regShop.shopName)"/>
+                                    <input type="text" disabled="{{shopId}}" placeholder="商铺名称"
+                                           ng-model="regShop.shopName"
+                                           ng-blur="checkShopName(regShop.shopName)"/>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +58,7 @@
                         <div class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label">商铺大分类</div>
-                                <div class="item-input">
+                                <div class="item-input" id="parentCatId">
                                     <select ng-model="regShop.parentCategoryId">
                                         <option ng-show="false" value="">
                                         <option ng-repeat="parentshopCatItem in parentCatList"
@@ -72,7 +74,7 @@
                         <div class="item-content">
                             <div class="item-inner">
                                 <div class="item-title label">商铺详细分类</div>
-                                <div class="item-input">
+                                <div class="item-input" id="shopCatId">
                                     <select ng-model="regShop.shopCategoryId">
                                         <option ng-show="false" value="">
                                         <option ng-repeat="shopCatItem in shopCatList"
@@ -91,7 +93,9 @@
                                 <div class="item-input">
                                     <select ng-model="regShop.areaId">
                                         <option ng-show="false" value="">
-                                        <option ng-repeat="areaCatItem in areaCatList" value="{{areaCatItem.areaId}}">
+                                        <option ng-repeat="areaCatItem in areaCatList"
+                                                value="{{areaCatItem.areaId}}"
+                                                selected="regShop.areaId === areaCatItem.areaId">
                                             {{areaCatItem.areaName}}
                                         </option>
                                     </select>
@@ -104,7 +108,8 @@
                             <div class="item-inner">
                                 <div class="item-title label">店长名称</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="店长名称" ng-model="ownerName" ng-blur="checkOwner(ownerName)"/>
+                                    <input type="text" disabled="{{shopId}}" placeholder="店长名称" ng-model="ownerName"
+                                           ng-blur="checkOwner(ownerName)"/>
                                 </div>
                             </div>
                         </div>
@@ -114,7 +119,8 @@
                             <div class="item-inner">
                                 <div class="item-title label">商铺联系电话</div>
                                 <div class="item-input">
-                                    <input type="text" placeholder="商铺联系电话" ng-model="regShop.phone" ng-blur="checkPhone(regShop.phone)"/>
+                                    <input type="text" placeholder="商铺联系电话" ng-model="regShop.phone"
+                                           ng-blur="checkPhone(regShop.phone)"/>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +161,8 @@
                                 <div class="item-title label">验证码</div>
                                 <input type="text" placeholder="验证码" ng-model="verifyCode"/>
                                 <div class="item-input">
-                                    <img id="verifyCode_img" alt="点击更换" ng-click="changeVerifyCode()" src="/o2o/Kaptcha" />
+                                    <img id="verifyCode_img" alt="点击更换" ng-click="changeVerifyCode()"
+                                         src="/o2o/Kaptcha"/>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +174,8 @@
             <div class="content-block">
                 <div class="row">
                     <div class="col-50"><a href="#" class="button button-big button-fill button-danger">返回</a></div>
-                    <div class="col-50"><a href="#" class="button button-big button-fill button-success" ng-click="subAddShop()">提交</a></div>
+                    <div class="col-50"><a href="#" class="button button-big button-fill button-success"
+                                           ng-click="operateShop()">提交</a></div>
                 </div>
             </div>
         </div>
@@ -181,7 +189,7 @@
 <!--angularjs-->
 <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
 <!--自定义js-->
-<script src="../../../o2o/resources/js/shop/shopReg.js"/>
+<script src="/o2o/resources/js/shop/shopReg.js"/>
 <script>$.init()</script>
 </body>
 </html>

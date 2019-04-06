@@ -27,4 +27,9 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
     public ShopVo queryShopWithName(Integer shopId) {
         return baseMapper.queryShopWithName(shopId);
     }
+
+    @Override
+    public List<Shop> queryByOwnerId(Integer ownerId) {
+        return baseMapper.selectList(new EntityWrapper<Shop>().eq("owner_id",ownerId));
+    }
 }

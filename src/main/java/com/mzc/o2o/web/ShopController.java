@@ -1,7 +1,9 @@
 package com.mzc.o2o.web;
 
+import com.mzc.o2o.entity.Area;
 import com.mzc.o2o.entity.Shop;
 import com.mzc.o2o.enums.ShopStateEnum;
+import com.mzc.o2o.service.AreaService;
 import com.mzc.o2o.service.ShopService;
 import com.mzc.o2o.util.FileUploadUtil;
 import com.mzc.o2o.util.VerifyCodeUtil;
@@ -20,7 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @auther: mzc
@@ -32,6 +39,9 @@ public class ShopController extends BaseController {
 
     @Autowired
     private ShopService shopService;
+
+    @Autowired
+    private AreaService areaService;
 
     /**
      * 商铺增加
@@ -55,6 +65,8 @@ public class ShopController extends BaseController {
         Shop shop = (Shop) JSONObject.toBean(jsonObj, Shop.class);
 
         //TODO 商铺的owner是否为当前登陆用户，如果是，就从session获取，取决于业务
+//        PersonInfo personInfo = (PersonInfo)request.getSession().getAttribute("user");
+//        shop.setOwnerId(personInfo.getUserId());
 
         if (shop == null || StringUtils.isBlank(shop.getOwnerId() + "") || StringUtils.isBlank(shop.getShopName())) {
             throw new RuntimeException("shop新增，参数错误,shop:[" + shop + "]");
@@ -69,49 +81,57 @@ public class ShopController extends BaseController {
         shop.setEnableStatus(ShopStateEnum.CHECK.getState());
         boolean re = shopService.insert(shop);
         if (re) {
+//           TODO 将当前用户下的所有商铺存储在session
+            HttpSession session = request.getSession();
+            List<Shop> shopList = (List<Shop>) session.getAttribute("shopList");
+            if (shopList == null){
+                shopList = new ArrayList<>();
+            }
+            shopList.add(shop);
+            session.setAttribute("shopList",shopList);
             return buildResultVo(shop, 1);
         }
         return buildEmptyResultVo();
     }
 
     /**
-     * 根据查询shopId
-     * @param shopId
-     * @return
-     */
-//    @GetMapping("/findByShopId/{shopId}")
-//    public ResultVo<Shop> findByShopId(@PathVariable("shopId") Integer shopId){
-//        Shop shop = shopService.query(shopId);
-//        return buildResultVo(shop, 1);
-//    }
-
-    /**
-     * 商铺修改
-     *
-     * @param shop
+     * 商铺修改 TODO
+     * @param regShopStr
+     * @param verifyCode
      * @param file
+     * @param request
      * @return
      */
     @PostMapping("/updateShop")
-    public ResultVo<Shop> updateShop(Shop shop, @RequestParam(value = "file",required = false) MultipartFile file) {
-        if (shop == null || shop.getShopId() == null) {
-            return buildFailResultVo("shop更改，参数错误", 1);
+    public ResultVo<String> updateShop(String regShopStr, String verifyCode,
+                                     @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
+        boolean verifyCodeOk = VerifyCodeUtil.checkVerifyCode(verifyCode, request);
+        if (!verifyCodeOk) {
+            log.error("【addShop】验证码校验失败...");
+            return buildEmptyResultVo();
         }
-        if (file != null) {
+        JSONObject jsonObj = JSONObject.fromObject(regShopStr);
+        Shop shop = (Shop) JSONObject.toBean(jsonObj, Shop.class);
+
+        if(StringUtils.isBlank(shop.getShopId()+"")){
+            return buildResultVo("shopId不可为空",0);
+        }
+        if(file!=null){
             try {
                 String url = "";
                 url = FileUploadUtil.uploadFile(file);
                 shop.setShopImg(url);
             }catch (Exception e){
-                return buildFailResultVo("上传图片失败", 0);
+                return buildResultVo("上传图片失败",0);
             }
         }
         shop.setLastEditTime(new Date());
         boolean re = shopService.updateById(shop);
-        if (re) {
-            return buildResultVo("", 1);
+        Shop _shop = shopService.selectById(shop.getShopId());
+        if(re){
+            return buildResultVo(_shop,1);
         }
-        return buildEmptyResultVo();
+        return buildFailResultVo(null,0);
     }
 
     /**
@@ -133,8 +153,23 @@ public class ShopController extends BaseController {
      * @return
      */
     @GetMapping("/queryShopWithName/{shopId}")
-    public ResultVo<ShopVo> queryShopWithName(@PathVariable("shopId") Integer shopId) {
+    public Map<String, Object> queryShopWithName(@PathVariable("shopId") Integer shopId) {
+        Map<String, Object> modelMap = new HashMap<>();
         ShopVo shopVo = shopService.queryShopWithName(shopId);
-        return buildResultVo(shopVo, shopVo == null ? 0 : 1);
+        List<Area> areaList = areaService.queryList();
+        modelMap.put("shopVo",shopVo);
+        modelMap.put("areaList",areaList);
+        modelMap.put("success",true);
+        return modelMap;
+    }
+
+    /**
+     * 获取ownerId下的所有店铺
+     * @param ownerId
+     * @return
+     */
+    @GetMapping("/queryByOwnerId/{ownerId}")
+    public List<Shop> queryByOwnerId(@PathVariable("ownerId") Integer ownerId){
+        return shopService.queryByOwnerId(ownerId);
     }
 }

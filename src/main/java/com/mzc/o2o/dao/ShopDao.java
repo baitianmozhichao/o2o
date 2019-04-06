@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Select;
 public interface ShopDao extends BaseMapper<Shop> {
 
     @Select("SELECT\n" +
-            "\tshop.*,personinfo.name,area.area_name,shopcat.shop_category_name,shopcat_p.shop_category_name as parent_category_name\n" +
+            "\tshop.*,personinfo.name as owner_name,area.area_name,shopcat.shop_category_name,shopcat_p.shop_category_name as parent_category_name\n" +
             "FROM\n" +
             "\ttb_shop shop\n" +
             "\tLEFT JOIN tb_person_info personinfo ON shop.owner_id = personinfo.user_id \n" +

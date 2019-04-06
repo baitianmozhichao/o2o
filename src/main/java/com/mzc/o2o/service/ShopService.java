@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.service.IService;
 import com.mzc.o2o.entity.Shop;
 import com.mzc.o2o.vo.ShopVo;
 
+import java.util.List;
+
 /**
  * @Description:
  * @Auther: mzc
@@ -14,4 +16,6 @@ public interface ShopService extends IService<Shop> {
     Integer getCountByName(String shopName);
 
     ShopVo queryShopWithName(Integer shopId);
+
+    List<Shop> queryByOwnerId(Integer ownerId);
 }
