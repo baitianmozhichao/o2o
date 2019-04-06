@@ -1,16 +1,17 @@
-package com.mzc.o2o.entity;
+package com.mzc.o2o.vo;
 
-import com.baomidou.mybatisplus.annotations.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @auther: mzc
+ */
 @Data
-public class Shop {
-
+public class ShopVo implements Serializable {
     @ApiModelProperty("商铺id")
-    @TableId
     private Integer shopId;
 
     @ApiModelProperty("店长id")
@@ -58,4 +59,10 @@ public class Shop {
 
     @ApiModelProperty("建议")
     private String advice;
+
+    private String ownerName;
+    private String areaName;
+    private String shopCategoryName;
+    private String parentCategoryName;
+
 }

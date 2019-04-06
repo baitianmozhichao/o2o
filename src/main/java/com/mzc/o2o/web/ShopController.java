@@ -6,6 +6,7 @@ import com.mzc.o2o.service.ShopService;
 import com.mzc.o2o.util.FileUploadUtil;
 import com.mzc.o2o.util.VerifyCodeUtil;
 import com.mzc.o2o.vo.ResultVo;
+import com.mzc.o2o.vo.ShopVo;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +35,7 @@ public class ShopController extends BaseController {
 
     /**
      * 商铺增加
+     *
      * @param regShopStr
      * @param verifyCode
      * @param file
@@ -42,15 +44,15 @@ public class ShopController extends BaseController {
      */
     @PostMapping("/addShop")
     public ResultVo<Shop> addShop(String regShopStr, String verifyCode,
-                                  @RequestParam(value = "file",required = false) MultipartFile file, HttpServletRequest request) {
+                                  @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
 
         boolean verifyCodeOk = VerifyCodeUtil.checkVerifyCode(verifyCode, request);
-        if (!verifyCodeOk){
+        if (!verifyCodeOk) {
             log.error("【addShop】验证码校验失败...");
             return buildEmptyResultVo();
         }
         JSONObject jsonObj = JSONObject.fromObject(regShopStr);
-        Shop shop = (Shop) JSONObject.toBean(jsonObj,Shop.class);
+        Shop shop = (Shop) JSONObject.toBean(jsonObj, Shop.class);
 
         //TODO 商铺的owner是否为当前登陆用户，如果是，就从session获取，取决于业务
 
@@ -85,32 +87,54 @@ public class ShopController extends BaseController {
 
     /**
      * 商铺修改
+     *
      * @param shop
      * @param file
      * @return
      */
     @PostMapping("/updateShop")
-    public ResultVo<Shop> updateShop(Shop shop, @RequestParam("file") MultipartFile file) {
-        //TODO
+    public ResultVo<Shop> updateShop(Shop shop, @RequestParam(value = "file",required = false) MultipartFile file) {
         if (shop == null || shop.getShopId() == null) {
-            throw new RuntimeException("shop更改，参数错误,shop:[" + shop + "]");
+            return buildFailResultVo("shop更改，参数错误", 1);
         }
-        String url = "";
         if (file != null) {
-            url = FileUploadUtil.uploadFile(file);
+            try {
+                String url = "";
+                url = FileUploadUtil.uploadFile(file);
+                shop.setShopImg(url);
+            }catch (Exception e){
+                return buildFailResultVo("上传图片失败", 0);
+            }
         }
-        shop.setShopImg(url);
         shop.setLastEditTime(new Date());
         boolean re = shopService.updateById(shop);
         if (re) {
-            return buildEmptyResultVo();
+            return buildResultVo("", 1);
         }
-        return buildResultVo(shop, 1);
+        return buildEmptyResultVo();
     }
 
+    /**
+     * 获取名字为shopName的商铺个数
+     *
+     * @param shopName
+     * @return
+     */
     @GetMapping("/getCountByName/{shopName}")
-    public ResultVo<String> getCountByName(@PathVariable("shopName") String shopName){
+    public ResultVo<String> getCountByName(@PathVariable("shopName") String shopName) {
         Integer count = shopService.getCountByName(shopName);
-        return buildResultVo("",count);
+        return buildResultVo("", count);
+    }
+
+    /**
+     * 查看商铺详情：带area名、owner名等
+     *
+     * @param shopId
+     * @return
+     */
+    @GetMapping("/queryShopWithName/{shopId}")
+    public ResultVo<ShopVo> queryShopWithName(@PathVariable("shopId") Integer shopId) {
+        ShopVo shopVo = shopService.queryShopWithName(shopId);
+        return buildResultVo(shopVo, shopVo == null ? 0 : 1);
     }
 }

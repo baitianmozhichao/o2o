@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.mzc.o2o.dao.ShopDao;
 import com.mzc.o2o.entity.Shop;
 import com.mzc.o2o.service.ShopService;
+import com.mzc.o2o.vo.ShopVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,5 +21,10 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
     public Integer getCountByName(String shopName) {
         List<Shop> shopList = baseMapper.selectList(new EntityWrapper<Shop>().eq("shop_name",shopName));
         return shopList.size();
+    }
+
+    @Override
+    public ShopVo queryShopWithName(Integer shopId) {
+        return baseMapper.queryShopWithName(shopId);
     }
 }

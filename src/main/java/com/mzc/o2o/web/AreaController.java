@@ -60,7 +60,7 @@ public class AreaController extends BaseController{
      * @param areaId
      * @return
      */
-    @GetMapping("/addArea/{areaId}")
+    @GetMapping("/queryById/{areaId}")
     public ResultVo queryById(@PathVariable("areaId") Integer areaId){
         return buildResultVo(areaService.selectById(areaId),1);
     }

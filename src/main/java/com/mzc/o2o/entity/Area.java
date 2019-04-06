@@ -1,68 +1,28 @@
 package com.mzc.o2o.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 public class Area {
+
+    @ApiModelProperty("区域id")
     @TableId
     private Integer areaId;
 
+    @ApiModelProperty("区域名称")
     private String areaName;
 
+    @ApiModelProperty("区域描述")
     private String areaDesc;
 
+    @ApiModelProperty("区域优先级")
     private Integer priority;
 
     private Date createTime;
 
     private Date lastEditTime;
-
-    public Integer getAreaId() {
-        return areaId;
-    }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
-    }
-
-    public String getAreaName() {
-        return areaName;
-    }
-
-    public void setAreaName(String areaName) {
-        this.areaName = areaName == null ? null : areaName.trim();
-    }
-
-    public String getAreaDesc() {
-        return areaDesc;
-    }
-
-    public void setAreaDesc(String areaDesc) {
-        this.areaDesc = areaDesc == null ? null : areaDesc.trim();
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getLastEditTime() {
-        return lastEditTime;
-    }
-
-    public void setLastEditTime(Date lastEditTime) {
-        this.lastEditTime = lastEditTime;
-    }
 }

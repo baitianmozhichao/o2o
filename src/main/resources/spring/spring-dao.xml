@@ -72,13 +72,13 @@
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>
 
-    <!-- 5、mybatisplus的全局策略配置 -->
+    <!-- 5、mybatisplus的全局策略配置 【重要】 -->
     <bean id="globalConfiguration" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
         <!-- 2.3版本后，驼峰命名默认值就是true，所以可不配置 -->
-        <!--<property name="dbColumnUnderline" value="true"/>-->
-        <!-- 全局主键自增策略，0表示auto -->
+        <property name="dbColumnUnderline" value="true"/>
+        <!-- 全局主键自增策略，0表示auto，省去配置@TableId(..,type = IdType.AUTO) -->
         <property name="idType" value="0"/>
-        <!-- 全局表前缀配置 -->
+        <!-- 全局表前缀配置 省去配置@TableName，如'tb_Area'->'Area'的映射-->
         <property name="tablePrefix" value="tb_"/>
     </bean>
 </beans>

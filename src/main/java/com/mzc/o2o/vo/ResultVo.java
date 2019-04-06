@@ -4,12 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 /**
- * @Description:
- * @Auther: mzc
- * @Date: 2019/4/2 08:46
+ * Controller返回
+ * @auther: mzc
  */
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ResultVo<T> {
     private String resultCode;
     private String resultMsg;

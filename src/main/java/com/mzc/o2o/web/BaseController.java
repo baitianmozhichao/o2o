@@ -23,4 +23,13 @@ public class BaseController<T> {
         resultVo.setCount(count);
         return resultVo;
     }
+
+    public ResultVo<T> buildFailResultVo(T moudule, Integer count) {
+        ResultVo<T> resultVo = new ResultVo<>();
+        resultVo.setResultCode("T");
+        resultVo.setResultMsg("返回失败");
+        resultVo.setMoudule(moudule);
+        resultVo.setCount(count);
+        return resultVo;
+    }
 }
