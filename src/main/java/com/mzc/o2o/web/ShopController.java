@@ -32,6 +32,14 @@ public class ShopController extends BaseController {
     @Autowired
     private ShopService shopService;
 
+    /**
+     * 商铺增加
+     * @param regShopStr
+     * @param verifyCode
+     * @param file
+     * @param request
+     * @return
+     */
     @PostMapping("/addShop")
     public ResultVo<Shop> addShop(String regShopStr, String verifyCode,
                                   @RequestParam(value = "file",required = false) MultipartFile file, HttpServletRequest request) {
@@ -57,13 +65,30 @@ public class ShopController extends BaseController {
         shop.setCreateTime(new Date());
         shop.setLastEditTime(new Date());
         shop.setEnableStatus(ShopStateEnum.CHECK.getState());
-        int effectiveNum = shopService.add(shop);
-        if (effectiveNum == 0) {
-            return buildEmptyResultVo();
+        boolean re = shopService.insert(shop);
+        if (re) {
+            return buildResultVo(shop, 1);
         }
-        return buildResultVo(shop, effectiveNum);
+        return buildEmptyResultVo();
     }
 
+    /**
+     * 根据查询shopId
+     * @param shopId
+     * @return
+     */
+//    @GetMapping("/findByShopId/{shopId}")
+//    public ResultVo<Shop> findByShopId(@PathVariable("shopId") Integer shopId){
+//        Shop shop = shopService.query(shopId);
+//        return buildResultVo(shop, 1);
+//    }
+
+    /**
+     * 商铺修改
+     * @param shop
+     * @param file
+     * @return
+     */
     @PostMapping("/updateShop")
     public ResultVo<Shop> updateShop(Shop shop, @RequestParam("file") MultipartFile file) {
         //TODO
@@ -76,11 +101,11 @@ public class ShopController extends BaseController {
         }
         shop.setShopImg(url);
         shop.setLastEditTime(new Date());
-        int effectiveNum = shopService.update(shop);
-        if (effectiveNum == 0) {
+        boolean re = shopService.updateById(shop);
+        if (re) {
             return buildEmptyResultVo();
         }
-        return buildResultVo(shop, effectiveNum);
+        return buildResultVo(shop, 1);
     }
 
     @GetMapping("/getCountByName/{shopName}")

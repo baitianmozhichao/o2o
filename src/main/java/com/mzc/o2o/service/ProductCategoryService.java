@@ -1,5 +1,6 @@
 package com.mzc.o2o.service;
 
+import com.baomidou.mybatisplus.service.IService;
 import com.mzc.o2o.entity.ProductCategory;
 
 /**
@@ -7,5 +8,5 @@ import com.mzc.o2o.entity.ProductCategory;
  * @Auther: mzc
  * @Date: 2019/4/2 22:59
  */
-public interface ProductCategoryService extends BaseService<ProductCategory>{
+public interface ProductCategoryService extends IService<ProductCategory> {
 }

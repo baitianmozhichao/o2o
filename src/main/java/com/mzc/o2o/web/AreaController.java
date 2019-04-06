@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.List;
 
 /**
@@ -29,6 +27,10 @@ public class AreaController extends BaseController{
     @Autowired
     private AreaService areaService;
 
+    /**
+     * 查询所有区域
+     * @return
+     */
     @GetMapping("/getAll")
     public ResultVo getAll() {
         try {
@@ -39,31 +41,27 @@ public class AreaController extends BaseController{
         }
     }
 
+    /**
+     * 新增区域
+     * @param area
+     * @return
+     */
     @PostMapping("/addArea")
     public ResultVo addArea(@RequestBody Area area) {
-        int effectRows = areaService.add(area);
-        if(effectRows == 1){
+        boolean result = areaService.insert(area);
+        if(result){
             return buildResultVo(area, 1);
         }
         return buildEmptyResultVo();
     }
 
+    /**
+     * 根据id查找区域
+     * @param areaId
+     * @return
+     */
     @GetMapping("/addArea/{areaId}")
     public ResultVo queryById(@PathVariable("areaId") Integer areaId){
-        return buildResultVo(areaService.query(areaId),1);
-    }
-
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader("E:/2.txt"));
-        String line;
-        StringBuilder result = new StringBuilder();
-//      Integer agentTel = vehInfVo.getAgentTel();
-        while ((line = br.readLine()) != null) {
-            char[] cs = line.toCharArray();
-            cs[0]+=32;
-            System.out.println("Integer "+String.valueOf(cs)+" = "+"vehInfVo.get"+line+"();");
-        }
-        br.close();
-        System.out.println(result.toString());
+        return buildResultVo(areaService.selectById(areaId),1);
     }
 }

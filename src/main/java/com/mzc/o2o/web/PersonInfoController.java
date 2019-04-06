@@ -28,11 +28,16 @@ public class PersonInfoController extends BaseController {
     @GetMapping("/getAll")
     public ResultVo<List<PersonInfo>> getAll() {
         ResultVo<List<PersonInfo>> resultVo = new ResultVo<List<PersonInfo>>();
-        List<PersonInfo> personInfoList = personInfoService.queryList();
+        List<PersonInfo> personInfoList = personInfoService.selectList(null);
         buildResultVo(personInfoList,personInfoList.size());
         return resultVo;
     }
 
+    /**
+     * 根据名字获取个人信息
+     * @param name
+     * @return
+     */
     @GetMapping("/findByName/{name}")
     public ResultVo<PersonInfo> findByName(@PathVariable(value = "name",required = false) String name){
         try {

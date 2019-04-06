@@ -1,5 +1,6 @@
 package com.mzc.o2o.service;
 
+import com.baomidou.mybatisplus.service.IService;
 import com.mzc.o2o.entity.UserShopMap;
 
 /**
@@ -7,5 +8,5 @@ import com.mzc.o2o.entity.UserShopMap;
  * @Auther: mzc
  * @Date: 2019/4/2 23:28
  */
-public interface UserShopMapService extends BaseService<UserShopMap> {
+public interface UserShopMapService extends IService<UserShopMap> {
 }

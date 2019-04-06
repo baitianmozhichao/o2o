@@ -1,5 +1,7 @@
 package com.mzc.o2o.service.impl;
 
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.mzc.o2o.dao.ProductCategoryDao;
 import com.mzc.o2o.entity.ProductCategory;
 import com.mzc.o2o.service.ProductCategoryService;
 import org.springframework.stereotype.Service;
@@ -10,5 +12,5 @@ import org.springframework.stereotype.Service;
  * @Date: 2019/4/2 23:00
  */
 @Service
-public class ProductCategoryServiceImpl extends BaseServiceImpl<ProductCategory> implements ProductCategoryService {
+public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryDao,ProductCategory> implements ProductCategoryService {
 }

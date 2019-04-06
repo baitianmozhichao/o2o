@@ -1,5 +1,6 @@
 package com.mzc.o2o.service;
 
+import com.baomidou.mybatisplus.service.IService;
 import com.mzc.o2o.entity.PersonInfo;
 
 /**
@@ -7,7 +8,7 @@ import com.mzc.o2o.entity.PersonInfo;
  * @Auther: mzc
  * @Date: 2019/4/2 17:24
  */
-public interface PersonInfoService extends BaseService<PersonInfo>{
+public interface PersonInfoService extends IService<PersonInfo> {
 
     PersonInfo findByName(String name);
 }
