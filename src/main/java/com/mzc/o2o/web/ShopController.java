@@ -8,6 +8,7 @@ import com.mzc.o2o.service.ShopService;
 import com.mzc.o2o.util.FileUploadUtil;
 import com.mzc.o2o.util.VerifyCodeUtil;
 import com.mzc.o2o.vo.ResultVo;
+import com.mzc.o2o.vo.ShopQueryCondition;
 import com.mzc.o2o.vo.ShopVo;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
@@ -164,12 +165,16 @@ public class ShopController extends BaseController {
     }
 
     /**
-     * 获取ownerId下的所有店铺
-     * @param ownerId
+     * 按商铺条件进行分页查询，ShopQueryCondition
+     * @param condition
+     * @param current
+     * @param size
      * @return
      */
-    @GetMapping("/queryByOwnerId/{ownerId}")
-    public List<Shop> queryByOwnerId(@PathVariable("ownerId") Integer ownerId){
-        return shopService.queryByOwnerId(ownerId);
+    @PostMapping("/queryByConditionsPage/{current}/{size}")
+    public List<Shop> queryByConditionsPage(ShopQueryCondition condition,
+                                            @PathVariable("current") Integer current,
+                                            @PathVariable("size") Integer size){
+        return shopService.queryByConditionsPage(condition,current,size);
     }
 }
