@@ -10,6 +10,7 @@ import com.mzc.o2o.util.VerifyCodeUtil;
 import com.mzc.o2o.vo.ResultVo;
 import com.mzc.o2o.vo.ShopQueryCondition;
 import com.mzc.o2o.vo.ShopVo;
+import com.mzc.o2o.web.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -172,9 +174,12 @@ public class ShopController extends BaseController {
      * @return
      */
     @PostMapping("/queryByConditionsPage/{current}/{size}")
-    public List<Shop> queryByConditionsPage(ShopQueryCondition condition,
-                                            @PathVariable("current") Integer current,
-                                            @PathVariable("size") Integer size){
-        return shopService.queryByConditionsPage(condition,current,size);
+    public ResultVo<List<Shop>> queryByConditionsPage(@RequestBody ShopQueryCondition condition,
+                                            @PathVariable(value = "current",required = false) Integer current,
+                                            @PathVariable(value = "size",required = false) Integer size){
+        ResultVo<List<Shop>> resultVo = new ResultVo<>();
+        List<Shop> shopList = shopService.queryByConditionsPage(condition,current,size);
+        List<Shop> countShopList = shopService.queryByConditionsPage(condition,1,Integer.MAX_VALUE);
+        return buildResultVoPage(shopList,countShopList.size(),current,size);
     }
 }

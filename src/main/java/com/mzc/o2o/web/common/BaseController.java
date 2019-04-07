@@ -1,4 +1,4 @@
-package com.mzc.o2o.web;
+package com.mzc.o2o.web.common;
 
 import com.mzc.o2o.vo.ResultVo;
 
@@ -21,6 +21,25 @@ public class BaseController<T> {
         resultVo.setResultMsg("返回成功");
         resultVo.setMoudule(moudule);
         resultVo.setCount(count);
+        return resultVo;
+    }
+
+    /**
+     * 带分页信息的返回类型
+     * @param moudule
+     * @param count
+     * @param current
+     * @param size
+     * @return
+     */
+    public ResultVo<T> buildResultVoPage(T moudule, Integer count,Integer current,Integer size) {
+        ResultVo<T> resultVo = new ResultVo<>();
+        resultVo.setResultCode("T");
+        resultVo.setResultMsg("返回成功");
+        resultVo.setMoudule(moudule);
+        resultVo.setCount(count);
+        resultVo.setCurrent(current);
+        resultVo.setSize(size);
         return resultVo;
     }
 

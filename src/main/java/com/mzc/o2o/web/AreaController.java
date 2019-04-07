@@ -3,6 +3,7 @@ package com.mzc.o2o.web;
 import com.mzc.o2o.entity.Area;
 import com.mzc.o2o.service.AreaService;
 import com.mzc.o2o.vo.ResultVo;
+import com.mzc.o2o.web.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/area")
 @Slf4j
-public class AreaController extends BaseController{
+public class AreaController extends BaseController {
 
     @Autowired
     private AreaService areaService;

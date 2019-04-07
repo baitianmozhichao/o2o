@@ -12,8 +12,10 @@ import lombok.Data;
 public class ResultVo<T> {
     private String resultCode;
     private String resultMsg;
-    private T moudule;
     private Integer count;
+    private Integer current;
+    private Integer size;
+    private T moudule;
 
     public ResultVo() {
     }

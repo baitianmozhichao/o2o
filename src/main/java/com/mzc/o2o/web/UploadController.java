@@ -3,6 +3,7 @@ package com.mzc.o2o.web;
 import com.mzc.o2o.common.CommonConst;
 import com.mzc.o2o.util.FastDFSClient;
 import com.mzc.o2o.vo.ResultVo;
+import com.mzc.o2o.web.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @Slf4j
 @RequestMapping(value = "/upload")
-public class UploadController extends BaseController{
+public class UploadController extends BaseController {
 
 //    TODO
 //    @Value("${FILE_SERVER_URL}")

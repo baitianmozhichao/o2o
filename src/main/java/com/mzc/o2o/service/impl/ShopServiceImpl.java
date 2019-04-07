@@ -41,7 +41,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
             shopWrapper.like("shop_name",condition.getShopName());
         }
         if(condition.getEnableStatus()!=null){
-            shopWrapper.eq("enable_status",condition.getOwnerId());
+            shopWrapper.eq("enable_status",condition.getEnableStatus());
         }
         if(condition.getParentCategoryId()!=null){
             shopWrapper.eq("parent_category_id",condition.getParentCategoryId());
@@ -52,6 +52,8 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
         if(condition.getAreaId()!=null){
             shopWrapper.eq("area_id",condition.getAreaId());
         }
+        //TODO
+        shopWrapper.orderBy("priority");
         return baseMapper.selectPage(new Page<Shop>(current, size),shopWrapper);
     }
 }

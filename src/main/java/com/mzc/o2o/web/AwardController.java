@@ -2,6 +2,7 @@ package com.mzc.o2o.web;
 
 import com.mzc.o2o.service.AwardService;
 import com.mzc.o2o.vo.ResultVo;
+import com.mzc.o2o.web.common.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

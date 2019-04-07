@@ -25,4 +25,8 @@ public class RouteShopController {
         return "shop/shopRegistry";
     }
 
+    @GetMapping("/shopList")
+    public String shopList(){
+        return "shop/shopList";
+    }
 }
