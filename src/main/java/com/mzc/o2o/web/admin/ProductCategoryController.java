@@ -1,4 +1,4 @@
-package com.mzc.o2o.web;
+package com.mzc.o2o.web.admin;
 
 import com.mzc.o2o.entity.Product;
 import com.mzc.o2o.service.ProductService;

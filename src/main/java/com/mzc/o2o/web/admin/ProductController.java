@@ -1,4 +1,4 @@
-package com.mzc.o2o.web;
+package com.mzc.o2o.web.admin;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.mzc.o2o.entity.Product;

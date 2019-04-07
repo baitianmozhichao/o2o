@@ -28,4 +28,14 @@ public class CommonConst {
      * redis缓存中“店铺详情”的key
      */
     public static final String SHOPDETAIL = "shopDetail";
+
+    /**
+     * redis缓存中“商铺根分类列表”的key
+     */
+    public static final String SHOPROOTCAT = "shopRootCat";
+
+    /**
+     * redis缓存中“头条列表”的key
+     */
+    public static final String HEADLINE = "headline";
 }
