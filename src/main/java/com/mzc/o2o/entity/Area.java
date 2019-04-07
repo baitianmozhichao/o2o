@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class Area {
+public class Area implements Serializable {
 
     @ApiModelProperty("区域id")
     @TableId

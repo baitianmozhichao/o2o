@@ -1,5 +1,6 @@
 package com.mzc.o2o.web;
 
+import com.mzc.o2o.common.CommonConst;
 import com.mzc.o2o.entity.Area;
 import com.mzc.o2o.entity.Shop;
 import com.mzc.o2o.enums.ShopStateEnum;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +47,9 @@ public class ShopController extends BaseController {
 
     @Autowired
     private AreaService areaService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 商铺增加
@@ -87,11 +92,11 @@ public class ShopController extends BaseController {
 //           TODO 将当前用户下的所有商铺存储在session
             HttpSession session = request.getSession();
             List<Shop> shopList = (List<Shop>) session.getAttribute("shopList");
-            if (shopList == null){
+            if (shopList == null) {
                 shopList = new ArrayList<>();
             }
             shopList.add(shop);
-            session.setAttribute("shopList",shopList);
+            session.setAttribute("shopList", shopList);
             return buildResultVo(shop, 1);
         }
         return buildEmptyResultVo();
@@ -99,6 +104,7 @@ public class ShopController extends BaseController {
 
     /**
      * 商铺修改 TODO
+     *
      * @param regShopStr
      * @param verifyCode
      * @param file
@@ -107,7 +113,7 @@ public class ShopController extends BaseController {
      */
     @PostMapping("/updateShop")
     public ResultVo<String> updateShop(String regShopStr, String verifyCode,
-                                     @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
+                                       @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
         boolean verifyCodeOk = VerifyCodeUtil.checkVerifyCode(verifyCode, request);
         if (!verifyCodeOk) {
             log.error("【addShop】验证码校验失败...");
@@ -116,25 +122,26 @@ public class ShopController extends BaseController {
         JSONObject jsonObj = JSONObject.fromObject(regShopStr);
         Shop shop = (Shop) JSONObject.toBean(jsonObj, Shop.class);
 
-        if(StringUtils.isBlank(shop.getShopId()+"")){
-            return buildResultVo("shopId不可为空",0);
+        if (StringUtils.isBlank(shop.getShopId() + "")) {
+            return buildResultVo("shopId不可为空", 0);
         }
-        if(file!=null){
+        if (file != null) {
             try {
                 String url = "";
                 url = FileUploadUtil.uploadFile(file);
                 shop.setShopImg(url);
-            }catch (Exception e){
-                return buildResultVo("上传图片失败",0);
+            } catch (Exception e) {
+                return buildResultVo("上传图片失败", 0);
             }
         }
         shop.setLastEditTime(new Date());
         boolean re = shopService.updateById(shop);
         Shop _shop = shopService.selectById(shop.getShopId());
-        if(re){
-            return buildResultVo(_shop,1);
+        if (re) {
+            redisTemplate.opsForHash().get(CommonConst.SHOPDETAIL, shop.getShopId());
+            return buildResultVo(_shop, 1);
         }
-        return buildFailResultVo(null,0);
+        return buildFailResultVo(null, 0);
     }
 
     /**
@@ -145,7 +152,11 @@ public class ShopController extends BaseController {
      */
     @GetMapping("/getCountByName/{shopName}")
     public ResultVo<String> getCountByName(@PathVariable("shopName") String shopName) {
-        Integer count = shopService.getCountByName(shopName);
+        Integer count = (Integer) redisTemplate.opsForHash().get(CommonConst.SHOPNUM, shopName);
+        if (count == null) {
+            count = shopService.getCountByName(shopName);
+            redisTemplate.opsForHash().put(CommonConst.SHOPNUM, shopName, count);
+        }
         return buildResultVo("", count);
     }
 
@@ -158,16 +169,21 @@ public class ShopController extends BaseController {
     @GetMapping("/queryShopWithName/{shopId}")
     public Map<String, Object> queryShopWithName(@PathVariable("shopId") Integer shopId) {
         Map<String, Object> modelMap = new HashMap<>();
-        ShopVo shopVo = shopService.queryShopWithName(shopId);
+        ShopVo shopVo = (ShopVo) redisTemplate.opsForHash().get(CommonConst.SHOPDETAIL, shopId);
+        if(shopVo == null){
+            shopVo = shopService.queryShopWithName(shopId);
+            redisTemplate.opsForHash().put(CommonConst.SHOPDETAIL, shopId, shopVo);
+        }
         List<Area> areaList = areaService.queryList();
-        modelMap.put("shopVo",shopVo);
-        modelMap.put("areaList",areaList);
-        modelMap.put("success",true);
+        modelMap.put("shopVo", shopVo);
+        modelMap.put("areaList", areaList);
+        modelMap.put("success", true);
         return modelMap;
     }
 
     /**
      * 按商铺条件进行分页查询，ShopQueryCondition
+     *
      * @param condition
      * @param current
      * @param size
@@ -175,11 +191,11 @@ public class ShopController extends BaseController {
      */
     @PostMapping("/queryByConditionsPage/{current}/{size}")
     public ResultVo<List<Shop>> queryByConditionsPage(@RequestBody ShopQueryCondition condition,
-                                            @PathVariable(value = "current",required = false) Integer current,
-                                            @PathVariable(value = "size",required = false) Integer size){
+                                                      @PathVariable(value = "current", required = false) Integer current,
+                                                      @PathVariable(value = "size", required = false) Integer size) {
         ResultVo<List<Shop>> resultVo = new ResultVo<>();
-        List<Shop> shopList = shopService.queryByConditionsPage(condition,current,size);
-        List<Shop> countShopList = shopService.queryByConditionsPage(condition,1,Integer.MAX_VALUE);
-        return buildResultVoPage(shopList,countShopList.size(),current,size);
+        List<Shop> shopList = shopService.queryByConditionsPage(condition, current, size);
+        List<Shop> countShopList = shopService.queryByConditionsPage(condition, 1, Integer.MAX_VALUE);
+        return buildResultVoPage(shopList, countShopList.size(), current, size);
     }
 }
