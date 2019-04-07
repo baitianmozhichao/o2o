@@ -134,6 +134,7 @@ public class ShopController extends BaseController {
                 return buildResultVo("上传图片失败", 0);
             }
         }
+
         shop.setLastEditTime(new Date());
         boolean re = shopService.updateById(shop);
         Shop _shop = shopService.selectById(shop.getShopId());
