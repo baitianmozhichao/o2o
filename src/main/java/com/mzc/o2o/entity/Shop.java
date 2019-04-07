@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class Shop {
+public class Shop implements Serializable {
 
     @ApiModelProperty("商铺id")
     @TableId
