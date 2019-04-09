@@ -22,7 +22,7 @@ public class ShopCategoryController extends BaseController {
     private ShopCategoryService shopCategoryService;
 
     /**
-     * 获取所有个人信息,用于新增商铺信息时shopCategory的选择
+     * 获取某一根分类下的所有分类信息
      * @return
      */
     @GetMapping("/getByParentId/{parentId}")
@@ -31,9 +31,22 @@ public class ShopCategoryController extends BaseController {
         return buildResultVo(shopCategoryList,shopCategoryList.size());
     }
 
+    /**
+     * 获取根分类
+     * @return
+     */
     @GetMapping("/getRootCats")
     public ResultVo<List<ShopCategory>> getRootCats(){
         List<ShopCategory> shopCategoryList = shopCategoryService.queryRootCats();
         return buildResultVo(shopCategoryList,shopCategoryList.size());
+    }
+
+    /**
+     * 获取所有分类
+     * @return
+     */
+    public ResultVo<List<ShopCategory>> getAll() {
+        List<ShopCategory> shopCategoryList = shopCategoryService.selectList(null);
+        return buildResultVo(shopCategoryList, shopCategoryList.size());
     }
 }

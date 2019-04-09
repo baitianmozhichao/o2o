@@ -22,7 +22,7 @@ import java.util.List;
 public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopService {
     @Override
     public Integer getCountByName(String shopName) {
-        List<Shop> shopList = baseMapper.selectList(new EntityWrapper<Shop>().eq("shop_name",shopName));
+        List<Shop> shopList = baseMapper.selectList(new EntityWrapper<Shop>().eq("shop_name", shopName));
         return shopList.size();
     }
 
@@ -31,29 +31,43 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
         return baseMapper.queryShopWithName(shopId);
     }
 
+    /**
+     * 分页、条件查询
+     * @param condition
+     * @param current
+     * @param size
+     * @return
+     */
     @Override
     public List<Shop> queryByConditionsPage(ShopQueryCondition condition, Integer current, Integer size) {
-        EntityWrapper shopWrapper = new EntityWrapper<Shop>();
-        if(condition.getOwnerId()!=null){
-            shopWrapper.eq("owner_id",condition.getOwnerId());
+        EntityWrapper<Shop> shopWrapper = new EntityWrapper<>();
+
+//        引入关键词搜索：商铺名|商铺描述
+        if (condition.getKey() != null) {
+            shopWrapper.like("shop_name", condition.getKey());
+            shopWrapper.orNew().like("shop_desc", condition.getKey());
         }
-        if (!StringUtils.isBlank(condition.getShopName())){
-            shopWrapper.like("shop_name",condition.getShopName());
+
+//        其他搜索条件
+        if (condition.getOwnerId() != null) {
+            shopWrapper.eq("owner_id", condition.getOwnerId());
         }
-        if(condition.getEnableStatus()!=null){
-            shopWrapper.eq("enable_status",condition.getEnableStatus());
+        if (!StringUtils.isBlank(condition.getShopName())) {
+            shopWrapper.like("shop_name", condition.getShopName());
         }
-        if(condition.getParentCategoryId()!=null){
-            shopWrapper.eq("parent_category_id",condition.getParentCategoryId());
+        if (condition.getEnableStatus() != null) {
+            shopWrapper.eq("enable_status", condition.getEnableStatus());
         }
-        if(condition.getShopCategoryId()!=null){
-            shopWrapper.eq("shop_category_id",condition.getShopCategoryId());
+        if (condition.getParentCategoryId() != null) {
+            shopWrapper.eq("parent_category_id", condition.getParentCategoryId());
         }
-        if(condition.getAreaId()!=null){
-            shopWrapper.eq("area_id",condition.getAreaId());
+        if (condition.getShopCategoryId() != null) {
+            shopWrapper.eq("shop_category_id", condition.getShopCategoryId());
         }
-        //TODO
+        if (condition.getAreaId() != null) {
+            shopWrapper.eq("area_id", condition.getAreaId());
+        }
         shopWrapper.orderBy("priority");
-        return baseMapper.selectPage(new Page<Shop>(current, size),shopWrapper);
+        return baseMapper.selectPage(new Page<Shop>(current, size), shopWrapper);
     }
 }

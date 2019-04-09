@@ -20,7 +20,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -191,7 +190,7 @@ public class ShopController extends BaseController {
      * @return
      */
     @PostMapping("/queryByConditionsPage/{current}/{size}")
-    public ResultVo<List<Shop>> queryByConditionsPage(@RequestBody ShopQueryCondition condition,
+    public ResultVo<List<Shop>> queryByConditionsPage(ShopQueryCondition condition,
                                                       @PathVariable(value = "current", required = false) Integer current,
                                                       @PathVariable(value = "size", required = false) Integer size) {
         ResultVo<List<Shop>> resultVo = new ResultVo<>();

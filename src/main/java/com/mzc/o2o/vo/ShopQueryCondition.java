@@ -16,4 +16,7 @@ public class ShopQueryCondition {
     private Integer parentCategoryId;
     private Integer shopCategoryId;
     private Integer areaId;
+
+//    搜索关键词
+    private String key;
 }
