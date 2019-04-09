@@ -56,6 +56,7 @@ public class MainPageController {
         try {
 //            可展示的头条
             List<HeadLine> headLineList = (List<HeadLine>) redisTemplate.opsForList().leftPop(CommonConst.HEADLINE);
+            System.out.println("【头条】缓存数据 headLineList:"+headLineList);
             if (headLineList == null || headLineList.size() == 0) {
                 headLineList = headLineService.selectList(
                         new EntityWrapper<HeadLine>().eq("enable_status", HeadLineStateEnum.ACTIVE.getCode()));

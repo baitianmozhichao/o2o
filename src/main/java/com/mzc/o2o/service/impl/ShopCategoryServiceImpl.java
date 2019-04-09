@@ -31,6 +31,7 @@ public class ShopCategoryServiceImpl extends ServiceImpl<ShopCategoryDao, ShopCa
     @Override
     public List<ShopCategory> queryRootCats() {
         List<ShopCategory> shopCategoryList = (List<ShopCategory>) redisTemplate.opsForList().rightPop(CommonConst.SHOPROOTCAT);
+        System.out.println("【根分类】缓存数据 shopCategoryList:"+shopCategoryList);
         if (shopCategoryList == null || shopCategoryList.size() == 0) {
             shopCategoryList = baseMapper.selectList(new EntityWrapper<ShopCategory>().eq("parent_id", 0));
             redisTemplate.opsForList().leftPush(CommonConst.SHOPROOTCAT, shopCategoryList);

@@ -12,6 +12,6 @@ public class RoutePortalController {
 
     @RequestMapping("/mainpage")
     public String mainpage(){
-        return "portal/pageinfo";
+        return "portal/index";
     }
 }
