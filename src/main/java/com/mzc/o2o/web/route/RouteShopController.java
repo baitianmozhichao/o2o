@@ -20,4 +20,9 @@ public class RouteShopController {
     public String shopList(){
         return "shop/shopList";
     }
+
+    @GetMapping("/shopListQuery")
+    public String shopListQuery(){
+        return "shop/shopListQuery";
+    }
 }

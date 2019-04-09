@@ -45,6 +45,7 @@ public class ShopCategoryController extends BaseController {
      * 获取所有分类
      * @return
      */
+    @GetMapping("/getAll")
     public ResultVo<List<ShopCategory>> getAll() {
         List<ShopCategory> shopCategoryList = shopCategoryService.selectList(null);
         return buildResultVo(shopCategoryList, shopCategoryList.size());

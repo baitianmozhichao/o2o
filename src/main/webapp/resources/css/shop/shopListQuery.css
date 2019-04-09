@@ -1,0 +1,13 @@
+.catItem{
+    font-size: 20px;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid cornflowerblue;
+    border-radius: 10px;
+    color: cadetblue;
+}
+
+.cats{
+    padding: 10px;
+}
