@@ -13,7 +13,7 @@ public class ShopQueryCondition {
     private Integer ownerId;
     private String shopName;
     private Integer enableStatus;
-//    private Integer parentCategoryId;
+    private Integer parentCategoryId;
     private Integer shopCategoryId;
     private Integer areaId;
 

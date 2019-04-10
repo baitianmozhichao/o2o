@@ -41,40 +41,52 @@
                 <a class="button button-fill button-primary col-20" ng-click="search()">搜索</a>
             </div>
 
-            <div class="col-33 {{allItemClass}}" ng-click="searchByShopCat()">全部分类</div>
+            <!--店铺全部分类-->
+            <div class="col-33 {{allItemClass}}" style="width: 97%;margin:0 auto;" ng-click="searchByShopCat()">全部分类</div>
             <!--店铺所有分类-->
             <div class="row cats" ng-repeat="shopCat in shopCatList">
-                <div class="col-33 {{shopCat[0].itemClass}}" ng-click="searchByShopCat(shopCat[0].shopCategoryId)">{{shopCat[0].shopCategoryName}}</div>
-                <div class="col-33 {{shopCat[1].itemClass}}" ng-click="searchByShopCat(shopCat[1].shopCategoryId)">{{shopCat[1].shopCategoryName}}</div>
-                <div class="col-33 {{shopCat[2].itemClass}}" ng-click="searchByShopCat(shopCat[2].shopCategoryId)">{{shopCat[2].shopCategoryName}}</div>
+                <div class="col-33 {{shopCat[0].itemClass}}" ng-click="searchByShopCat(shopCat[0].shopCategoryId)">
+                    {{shopCat[0].shopCategoryName}}
+                </div>
+                <div class="col-33 {{shopCat[1].itemClass}}" ng-click="searchByShopCat(shopCat[1].shopCategoryId)">
+                    {{shopCat[1].shopCategoryName}}
+                </div>
+                <div class="col-33 {{shopCat[2].itemClass}}" ng-click="searchByShopCat(shopCat[2].shopCategoryId)">
+                    {{shopCat[2].shopCategoryName}}
+                </div>
             </div>
 
             <div class="areaSelDiv">
                 <label>区域选择：</label>
-                <select class="areaSel" ng-model="shopCondition.areaId">
+                <select class="areaSel" ng-model="shopCondition.areaId" ng-change="search()">
                     <option value="">所有区域</option>
-                    <option value="3">东苑</option>
-                    <option value="4">南苑</option>
-                    <option value="5">西苑</option>
-                    <option value="6">北苑</option>
+                    <option value="{{area.areaId}}" ng-repeat="area in areaList">{{area.areaName}}</option>
                 </select>
             </div>
 
-            <div class="list-block media-list">
-                <ul ng-repeat="shop in shopList">
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media">
-                                <img src="{{shop.shopImg}}" style='width: 2.2rem;'></div>
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title shopItemName">{{shop.shopName}}</div>
+            <!--商铺列表-->
+            <div class="card shopItemStyle" ng-repeat="shop in shopList">
+                <div class="card-header" style="font-size: 20px">{{shop.shopName}}</div>
+                <div class="card-content">
+                    <div class="list-block media-list">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-media">
+                                    <img src="{{shop.shopImg}}" width="44">
                                 </div>
-                                <div class="item-subtitle shopItemDesc">{{shop.shopDesc}}</div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title" style="font-size: 16px">{{shop.shopDesc}}</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span>{{shop.lastEditTimeDesc}} 更新</span>
+                    <span>点击查看</span>
+                </div>
             </div>
         </div>
     </div>

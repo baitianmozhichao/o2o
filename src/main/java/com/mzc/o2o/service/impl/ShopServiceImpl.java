@@ -43,11 +43,12 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
     public List<Shop> queryByConditionsPage(ShopQueryCondition condition, Integer current, Integer size) {
         EntityWrapper<Shop> shopWrapper = new EntityWrapper<>();
 
-//        为搜索方便，传入的categoryId可以同事匹配“shop_category_id”和“parent_category_id”
-        if (condition.getShopCategoryId() != null) {
-            shopWrapper.eq("shop_category_id", condition.getShopCategoryId());
-            shopWrapper.or().eq("parent_category_id", condition.getShopCategoryId());
-        }
+//        TODO 花了很久做出来，现在发现这个功能不需要!!
+//          为搜索方便，传入的categoryId可以同事匹配“shop_category_id”和“parent_category_id”
+//        if (condition.getShopCategoryId() != null) {
+//            shopWrapper.eq("shop_category_id", condition.getShopCategoryId());
+//            shopWrapper.or().eq("parent_category_id", condition.getShopCategoryId());
+//        }
 
 //        引入关键词搜索：商铺名|商铺描述
         if (StringUtils.isNotEmpty(condition.getKey())) {
@@ -73,6 +74,15 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
             shopWrapper.andNew();
             shopWrapper.eq("area_id", condition.getAreaId());
         }
+        if (condition.getShopCategoryId() != null) {
+            shopWrapper.andNew();
+            shopWrapper.eq("shop_category_id", condition.getShopCategoryId());
+        }
+        if (condition.getParentCategoryId() != null) {
+            shopWrapper.andNew();
+            shopWrapper.eq("parent_category_id", condition.getParentCategoryId());
+        }
+
 //        审核要通过，才能展示
         shopWrapper.eq("enable_status", ShopStateEnum.SUCCESS.getState());
 //        排序

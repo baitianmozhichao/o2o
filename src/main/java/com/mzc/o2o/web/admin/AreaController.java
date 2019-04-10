@@ -39,7 +39,7 @@ public class AreaController extends BaseController {
     @GetMapping("/getAll")
     public ResultVo getAll() {
         try {
-            List<Area> areaList = areaList = areaService.queryList();
+            List<Area> areaList = areaService.queryList();
             return buildResultVo(areaList,areaList.size());
         } catch (Exception e) {
             return buildEmptyResultVo();
