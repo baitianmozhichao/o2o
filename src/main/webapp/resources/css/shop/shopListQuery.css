@@ -6,8 +6,43 @@
     border: 1px solid cornflowerblue;
     border-radius: 10px;
     color: cadetblue;
+    cursor:pointer;
+}
+
+.catItemSel{
+    font-size: 20px;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid cornflowerblue;
+    border-radius: 10px;
+    color: cadetblue;
+    cursor:pointer;
+    background-color: lightgray;
 }
 
 .cats{
     padding: 10px;
+}
+
+.shopItemName{
+    font-size: 20px;
+    color: palevioletred;
+}
+
+.shopItemDesc{
+    font-size: 20px;
+    color: darkolivegreen;
+}
+
+.areaSelDiv{
+    font-size: 20px;
+    color: cadetblue;
+    padding-left: 10px;
+}
+
+.areaSel{
+    width: 30%;
+    height: 35px;
+    text-align: center;
 }

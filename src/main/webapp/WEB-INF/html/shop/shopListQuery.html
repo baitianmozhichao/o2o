@@ -36,44 +36,41 @@
             <div class="searchbar row">
                 <div class="search-input col-80">
                     <label class="icon icon-search" for="search"></label>
-                    <input type="search" id='search' ng-model="searchEntity.key" placeholder='输入关键字...'/>
+                    <input type="search" id='search' ng-model="shopCondition.key" placeholder='输入关键字...'/>
                 </div>
-                <a class="button button-fill button-primary col-20">搜索</a>
+                <a class="button button-fill button-primary col-20" ng-click="search()">搜索</a>
             </div>
 
+            <div class="col-33 {{allItemClass}}" ng-click="searchByShopCat()">全部分类</div>
             <!--店铺所有分类-->
             <div class="row cats" ng-repeat="shopCat in shopCatList">
-                <div class="col-33 catItem" ng-click="searchByShopCat(shopCat[0].shopCategoryId)">{{shopCat[0].shopCategoryName}}</div>
-                <div class="col-33 catItem" ng-click="searchByShopCat(shopCat[1].shopCategoryId)">{{shopCat[1].shopCategoryName}}</div>
-                <div class="col-33 catItem" ng-click="searchByShopCat(shopCat[2].shopCategoryId)">{{shopCat[2].shopCategoryName}}</div>
+                <div class="col-33 {{shopCat[0].itemClass}}" ng-click="searchByShopCat(shopCat[0].shopCategoryId)">{{shopCat[0].shopCategoryName}}</div>
+                <div class="col-33 {{shopCat[1].itemClass}}" ng-click="searchByShopCat(shopCat[1].shopCategoryId)">{{shopCat[1].shopCategoryName}}</div>
+                <div class="col-33 {{shopCat[2].itemClass}}" ng-click="searchByShopCat(shopCat[2].shopCategoryId)">{{shopCat[2].shopCategoryName}}</div>
             </div>
 
-            <div class="item-content">
-                <div class="item-media"><i class="icon icon-form-gender"></i></div>
-                <div class="item-inner">
-                    <div class="item-input">
-                        <select ng-model="searchEntity.areaId">
-                            <option value="3">东苑</option>
-                            <option value="4">南苑</option>
-                            <option value="5">西苑</option>
-                            <option value="6">北苑</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="areaSelDiv">
+                <label>区域选择：</label>
+                <select class="areaSel" ng-model="shopCondition.areaId">
+                    <option value="">所有区域</option>
+                    <option value="3">东苑</option>
+                    <option value="4">南苑</option>
+                    <option value="5">西苑</option>
+                    <option value="6">北苑</option>
+                </select>
             </div>
 
             <div class="list-block media-list">
-                <ul>
+                <ul ng-repeat="shop in shopList">
                     <li>
                         <div class="item-content">
-                            <div class="item-media"><img
-                                    src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg"
-                                    style='width: 2.2rem;'></div>
+                            <div class="item-media">
+                                <img src="{{shop.shopImg}}" style='width: 2.2rem;'></div>
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">标题</div>
+                                    <div class="item-title shopItemName">{{shop.shopName}}</div>
                                 </div>
-                                <div class="item-subtitle">子标题</div>
+                                <div class="item-subtitle shopItemDesc">{{shop.shopDesc}}</div>
                             </div>
                         </div>
                     </li>

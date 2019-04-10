@@ -29,8 +29,8 @@ shopApp.controller('shopListCtrl', function ($scope, $http) {
     };
 
     $scope.getShopList = function () {
-        //类型转换
-        $scope.shopCondition.enableStatus = parseInt($scope.shopCondition.enableStatus);
+        //TODO 类型转换
+        $scope.shopCondition.enableStatus = 0;
 
         $http.post("/o2o/shop/queryByConditionsPage/1/6",$scope.shopCondition).success(function (data) {
             $scope.shopList = data.moudule;
