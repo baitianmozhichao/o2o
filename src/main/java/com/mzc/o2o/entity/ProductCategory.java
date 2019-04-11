@@ -3,10 +3,11 @@ package com.mzc.o2o.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class ProductCategory {
+public class ProductCategory implements Serializable {
     @TableId
     private Integer productCategoryId;
 

@@ -32,22 +32,23 @@ shopApp.controller('shopListQueryCtrl', function ($scope, $http) {
             if (shopList.length / 3 < 1) {
                 $scope.shopCatList = new Array(1);
             } else {
-                $scope.shopCatList = new Array(shopList.length / 3);
+                $scope.shopCatList = new Array(Math.ceil(shopList.length / 3));
             }
             for (i = 0; i < shopList.length / 3; i++) {
                 $scope.shopCatList[i] = new Array(3);
             }
-            for (i = 0; i < (shopList.length / 3 > 1 ? shopList.length / 3 : 1); i++) {
-                $scope.shopCatList[i][0] = shopList[i];
-                var step = (shopList.length / 3 > 1 ? shopList.length / 3 : 1);
-                if (i + step < shopList.length) {
-                    $scope.shopCatList[i][1] = shopList[i + step];
+
+            var step = 3;
+            console.log(Math.ceil(shopList.length / 3));
+            for (i = 0; i < Math.ceil(shopList.length / 3); i++) {
+                $scope.shopCatList[i][0] = shopList[i * step];
+                if (i * step + 1 < shopList.length) {
+                    $scope.shopCatList[i][1] = shopList[i * step + 1];
                 }
-                if (i + 2 * step < shopList.length) {
-                    $scope.shopCatList[i][2] = shopList[i + 2 * step];
+                if (i * step + 2 < shopList.length) {
+                    $scope.shopCatList[i][2] = shopList[i * step + 2];
                 }
             }
-            console.log($scope.shopCatList)
         });
     };
 
@@ -132,6 +133,10 @@ shopApp.controller('shopListQueryCtrl', function ($scope, $http) {
     $scope.getParentCatId = function () {
         var url = window.location.href;
         var startIndex = url.indexOf("=");
+        if(startIndex === -1){
+            $.toast("shopId不存在");
+            return;
+        }
         $scope.parentCategoryId = url.substr(startIndex + 1, url.length);
     };
 

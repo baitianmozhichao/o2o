@@ -8,6 +8,7 @@ import com.mzc.o2o.entity.Product;
 import com.mzc.o2o.service.ProductService;
 import com.mzc.o2o.vo.ProductQueryCondition;
 import com.mzc.o2o.vo.ProductVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,40 +27,56 @@ public class ProductServiceImpl extends ServiceImpl<ProductDao, Product> impleme
 
     @Override
     public List<Product> getByConditionPage(ProductQueryCondition condition, Integer current, Integer size) {
-        EntityWrapper entityWrapper = new EntityWrapper<Product>();
+        EntityWrapper productWrapper = new EntityWrapper<Product>();
+
+//        关键词搜索
+        if (StringUtils.isNotEmpty(condition.getKey())) {
+            productWrapper.andNew();
+            productWrapper.like("product_name", condition.getKey());
+            productWrapper.or().like("product_desc", condition.getKey());
+        }
 
 //        正常价区间
         if (condition.getNormalPriceMin() != null) {
-            entityWrapper.ge("normal_price", condition.getNormalPriceMin());
+            productWrapper.andNew();
+            productWrapper.ge("normal_price", condition.getNormalPriceMin());
         }
         if (condition.getNormalPriceMin() != null) {
-            entityWrapper.le("normal_price", condition.getNormalPriceMax());
+            productWrapper.andNew();
+            productWrapper.le("normal_price", condition.getNormalPriceMax());
         }
 
 //        推广价区间
         if (condition.getPromotionPriceMin() != null) {
-            entityWrapper.ge("promotion_price", condition.getPromotionPriceMin());
+            productWrapper.andNew();
+            productWrapper.ge("promotion_price", condition.getPromotionPriceMin());
         }
         if (condition.getPromotionPriceMax() != null) {
-            entityWrapper.le("promotion_price", condition.getPromotionPriceMax());
+            productWrapper.andNew();
+            productWrapper.le("promotion_price", condition.getPromotionPriceMax());
         }
 
 //        其他
         if (condition.getProductName() != null) {
-            entityWrapper.like("product_Name", condition.getProductName());
+            productWrapper.andNew();
+            productWrapper.like("product_Name", condition.getProductName());
         }
         if (condition.getProductDesc() != null) {
-            entityWrapper.like("product_desc", condition.getProductDesc());
+            productWrapper.andNew();
+            productWrapper.like("product_desc", condition.getProductDesc());
         }
         if (condition.getEnableStatus() != null) {
-            entityWrapper.le("enableStatus", condition.getEnableStatus());
+            productWrapper.andNew();
+            productWrapper.eq("enableStatus", condition.getEnableStatus());
         }
         if (condition.getProductCategoryId() != null) {
-            entityWrapper.le("product_category_id", condition.getProductCategoryId());
+            productWrapper.andNew();
+            productWrapper.eq("product_category_id", condition.getProductCategoryId());
         }
         if (condition.getShopId() != null) {
-            entityWrapper.le("shop_id", condition.getShopId());
+            productWrapper.andNew();
+            productWrapper.eq("shop_id", condition.getShopId());
         }
-        return baseMapper.selectPage(new Page<Product>(current, size), entityWrapper);
+        return baseMapper.selectPage(new Page<Product>(current, size), productWrapper);
     }
 }

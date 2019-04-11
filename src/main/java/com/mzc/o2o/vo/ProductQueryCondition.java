@@ -26,4 +26,7 @@ public class ProductQueryCondition {
     private Integer enableStatus;
     private Integer productCategoryId;
     private Integer shopId;
+
+//    搜索关键词
+    private String key;
 }

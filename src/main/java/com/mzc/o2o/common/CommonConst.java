@@ -38,4 +38,9 @@ public class CommonConst {
      * redis缓存中“头条列表”的key
      */
     public static final String HEADLINE = "headline";
+
+    /**
+     * redis缓存中“商品分类”的key
+     */
+    public static final String PRODUCT_CAT = "product_cat";
 }

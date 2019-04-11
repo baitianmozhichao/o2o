@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的生活</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet"
+          href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet"
+          href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="/o2o/resources/css/product/productList.css">
+</head>
+<body>
+<div class="page-group" ng-app="productApp" ng-controller="productListCtrl">
+    <div class="page">
+        <header class="bar bar-nav">
+            <a class="button button-link button-nav pull-left back">
+                <span class="icon icon-left"></span>
+                返回
+            </a>
+            <h1 class="title">{{shop.shopName}}</h1>
+        </header>
+
+        <!--底部Tab-->
+        <nav class="bar bar-tab">
+            <a class="tab-item active" href="#"> <span
+                    class="icon icon-home"></span> <span class="tab-label">首页</span>
+            </a>
+            <a class="tab-item" href="#" id='me'> <span class="icon icon-me"></span>
+                <span class="tab-label">我</span>
+            </a>
+        </nav>
+
+        <div class="content">
+
+            <!--商铺详情-->
+            <div class="card demo-card-header-pic">
+                <div valign="bottom" class="card-header color-white no-border no-padding">
+                    <img class='card-cover' src="{{shop.shopImg}}" />
+                </div>
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <p class="color-gray">{{shop.createTimeDesc}}</p>
+                        <p>{{shop.shopDesc}}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="link">{{shop.shopAddr}}</a>
+                    <a href="#" class="link">TODO浏览量</a>
+                </div>
+            </div>
+
+            <!--店铺所有分类-->
+            <div class="row cats" ng-repeat="productCat in productCatList">
+                <div class="col-33 {{productCat[0].itemClass}}" ng-click="searchByProductCat(productCat[0].productCategoryId)">
+                    {{productCat[0].productCategoryName}}
+                </div>
+                <div class="col-33 {{productCat[1].itemClass}}" ng-click="searchByProductCat(productCat[1].productCategoryId)">
+                    {{productCat[1].productCategoryName}}
+                </div>
+                <div class="col-33 {{productCat[2].itemClass}}" ng-click="searchByProductCat(productCat[2].productCategoryId)">
+                    {{productCat[2].productCategoryName}}
+                </div>
+            </div>
+
+            <!--搜索栏-->
+            <div class="searchbar row" style="margin: 0 auto; padding: 0 10px;">
+                <div class="search-input">
+                    <label class="icon icon-search" for="search"></label>
+                    <input type="search" id='search' ng-model="roductQueryCondition.key" placeholder='输入关键字...'/>
+                </div>
+            </div>
+
+            <!--商品列表-->
+            <div class="card shopItemStyle" ng-repeat="product in productList">
+                <div class="card-header" style="font-size: 20px">{{product.productName}}</div>
+                <div class="card-content">
+                    <div class="list-block media-list">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-media">
+                                    <img src="{{product.imgAddr}}" width="44">
+                                </div>
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title" style="font-size: 16px">{{product.productDesc}}</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <span>{{product.lastEditTimeDesc}} 更新</span>
+                    <span>点击查看</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--angularjs-->
+<script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+
+<script type='text/javascript'
+        src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript'
+        src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='/o2o/resources/js/product/productList.js'
+        charset='utf-8'></script>
+
+<!--$.init()重要-->
+<script>$.init()</script>
+</body>
+</html>

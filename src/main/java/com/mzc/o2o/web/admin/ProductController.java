@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +32,12 @@ public class ProductController extends BaseController {
     @Autowired
     private ProductService productService;
 
+    /**
+     * 添加商品
+     * @param product
+     * @param file
+     * @return
+     */
     @PostMapping("/addProduct")
     public ResultVo<Product> addProduct(Product product, MultipartFile file) {
 
@@ -43,9 +50,14 @@ public class ProductController extends BaseController {
         return buildResultVo(product, 1);
     }
 
+    /**
+     * 编辑商品
+     * @param product
+     * @param file
+     * @return
+     */
     @PostMapping("/editProduct")
     public ResultVo<Product> editProduct(Product product, MultipartFile file) {
-
         if (file != null) {
             String url = "";
             url = FileUploadUtil.uploadFile(file);
@@ -68,13 +80,16 @@ public class ProductController extends BaseController {
 
     /**
      * 条件分页查询
+     * 1. 根据shopId查商品列表
+     *
      * @param condition
      * @param current
      * @param size
      * @return
      */
     @RequestMapping("/getByConditionPage/{current}/{size}")
-    public ResultVo<List<Product>> getByConditionPage(ProductQueryCondition condition, Integer current, Integer size) {
+    public ResultVo<List<Product>> getByConditionPage(@RequestBody ProductQueryCondition condition,
+                                                      @PathVariable("current") Integer current, @PathVariable("size") Integer size) {
         List<Product> productList = productService.getByConditionPage(condition, current, size);
         return buildResultVo(productList, productList.size());
     }
