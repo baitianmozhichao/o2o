@@ -29,8 +29,8 @@ shopApp.controller('mainPageCtrl', function ($scope, $http) {
     $scope.listMainPageInfo();
 
     //跳转到某根分类下的商铺列表
-    $scope.toShopList = function (shopCategoryId) {
-        window.location.href = "../shop/shopListQuery.html?parentCategoryId="+shopCategoryId;
+    $scope.toShopList = function (parentCategoryId) {
+        window.location.href = "../shop/shopListQuery.html?parentCategoryId="+parentCategoryId;
     }
 
 });

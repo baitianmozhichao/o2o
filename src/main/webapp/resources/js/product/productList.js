@@ -88,7 +88,7 @@ productApp.controller('productListCtrl', function ($scope, $http,$timeout) {
             $timeout.cancel(timeout)
         }
         timeout=$timeout(function(){
-            $scope.roductQueryCondition.key = newVal
+            $scope.roductQueryCondition.key = newVal;
             $http.post("/o2o/product/getByConditionPage/1/30", $scope.roductQueryCondition).success(function (data) {
                 $scope.productList = data.moudule;
                 if(!$scope.productList){

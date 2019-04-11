@@ -50,4 +50,10 @@ public class ShopCategoryController extends BaseController {
         List<ShopCategory> shopCategoryList = shopCategoryService.selectList(null);
         return buildResultVo(shopCategoryList, shopCategoryList.size());
     }
+
+    @GetMapping("/getByCatId/{catId}")
+    public ResultVo<ShopCategory> getByCatId(@PathVariable("catId") Integer catId){
+        ShopCategory shopCategory = shopCategoryService.selectById(catId);
+        return buildResultVo(shopCategory, 1);
+    }
 }

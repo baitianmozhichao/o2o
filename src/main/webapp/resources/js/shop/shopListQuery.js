@@ -7,6 +7,8 @@ shopApp.controller('shopListQueryCtrl', function ($scope, $http) {
 
     $scope.allItemClass = 'catItem';
 
+    $scope.parentCatName = '';
+
     $scope.shopCondition = {
         key: '',
         shopCategoryId: '',
@@ -134,13 +136,24 @@ shopApp.controller('shopListQueryCtrl', function ($scope, $http) {
         var url = window.location.href;
         var startIndex = url.indexOf("=");
         if(startIndex === -1){
-            $.toast("shopId不存在");
+            $.toast("parentCategoryId不存在");
             return;
         }
         $scope.parentCategoryId = url.substr(startIndex + 1, url.length);
     };
 
+    $scope.toShopDetail = function(shopId){
+        window.location.href = "../product/productList.html?shopId="+shopId;
+    };
+
+    $scope.getParentName = function(){
+        $http.get("/o2o/shopCategory/getByCatId/"+$scope.parentCategoryId).success(function (data) {
+            $scope.parentCatName = data.moudule.shopCategoryName;
+        })
+    };
+
     $scope.getParentCatId();
+    $scope.getParentName();
     $scope.getAllArea();
     $scope.getAllShopCat();
 

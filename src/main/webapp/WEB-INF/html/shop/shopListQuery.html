@@ -22,7 +22,7 @@
                 <span class="icon icon-left"></span>
                 返回
             </a>
-            <h1 class="title">校园商铺</h1>
+            <h1 class="title">{{parentCatName}}</h1>
         </header>
 
         <!--底部Tab-->
@@ -69,7 +69,7 @@
             </div>
 
             <!--商铺列表-->
-            <div class="card shopItemStyle" ng-repeat="shop in shopList">
+            <div class="card shopItemStyle" ng-repeat="shop in shopList" ng-click="toShopDetail(shop.shopId)">
                 <div class="card-header" style="font-size: 20px">{{shop.shopName}}</div>
                 <div class="card-content">
                     <div class="list-block media-list">
