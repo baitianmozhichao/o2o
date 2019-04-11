@@ -14,4 +14,5 @@ public class RoutePortalController {
     public String mainpage(){
         return "portal/index";
     }
+
 }

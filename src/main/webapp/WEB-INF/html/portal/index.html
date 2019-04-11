@@ -49,7 +49,7 @@
 
             <!--一级类别展示区-->
             <div class="row" ng-repeat="rootCategories in rootCategoryList">
-                <div class="col-50 shop-classify">
+                <div class="col-50 shop-classify" ng-click="toShopList(rootCategories[0].shopCategoryId)">
                     <div class='word'>
                         <p class='shop-title'>{{rootCategories[0].shopCategoryName}}</p>
                         <p class='shop-desc'>{{rootCategories[0].shopCategoryDesc}}</p>
@@ -58,7 +58,7 @@
                         <img class='shop-img' src="{{rootCategories[0].shopCategoryImg}}">
                     </div>
                 </div>
-                <div class="col-50 shop-classify">
+                <div class="col-50 shop-classify" ng-click="toShopList(rootCategories[1].shopCategoryId)">
                     <div class='word'>
                         <p class='shop-title'>{{rootCategories[1].shopCategoryName}}</p>
                         <p class='shop-desc'>{{rootCategories[1].shopCategoryDesc}}</p>
