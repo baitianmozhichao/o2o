@@ -3,17 +3,21 @@ package com.mzc.o2o.web.admin;
 import com.mzc.o2o.common.CommonConst;
 import com.mzc.o2o.entity.Area;
 import com.mzc.o2o.service.AreaService;
+import com.mzc.o2o.util.BindingResultUtil;
 import com.mzc.o2o.vo.ResultVo;
 import com.mzc.o2o.web.common.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,7 +56,12 @@ public class AreaController extends BaseController {
      * @return
      */
     @PostMapping("/addArea")
-    public ResultVo addArea(Area area) {
+    public ResultVo addArea(@Validated Area area, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return buildFailResultVo(BindingResultUtil.bindResult2Str(bindingResult),0);
+        }
+        area.setCreateTime(new Date());
+        area.setLastEditTime(new Date());
         boolean result = areaService.insert(area);
         if(result){
             redisTemplate.opsForList().rightPop(CommonConst.AREA);
