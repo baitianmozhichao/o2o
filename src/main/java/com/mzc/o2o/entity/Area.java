@@ -28,7 +28,9 @@ public class Area implements Serializable {
     @Range(min = 1, max = 10, message = "优先级有效范围1-10")
     private Integer priority;
 
+//    @DateValidator(dateFormat = "yyyy-MM-dd",message = "日期格式不对") TODO 自定义的校验注解未生效
     private Date createTime;
 
+//    @DateValidator(dateFormat = "yyyy-MM-dd",message = "日期格式不对")
     private Date lastEditTime;
 }

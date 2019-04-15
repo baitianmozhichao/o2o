@@ -63,7 +63,8 @@
                 <!--区域-->
                 <div class="item-input">
                     <label>区域选择：</label>
-                    <select style="width: 20%;" ng-model="shopCondition.areaId">
+                    <select style="width: 30%;" ng-model="shopCondition.areaId" ng-change="getShopList()">
+                        <option value="">全部</option>
                         <option ng-repeat="area in areaList" value="{{area.areaId}}">
                             {{area.areaName}}
                         </option>
@@ -72,8 +73,9 @@
 
                 <!--商铺状态-->
                 <div class="item-input">
-                    <label>商铺状态选择：</label>
-                    <select style="width: 20%;" ng-model="shopCondition.enableStatus">
+                    <label>状态选择：</label>
+                    <select style="width: 30%;" ng-model="shopCondition.enableStatus" ng-change="getShopList()">
+                        <option value="">全部</option>
                         <option ng-repeat="status in shopStatusList" value="{{status.state}}">
                             {{status.stateInfo}}
                         </option>
@@ -81,16 +83,16 @@
                 </div>
 
                 <div class="row" style="line-height: 50px;margin-top: 15px;color:darkseagreen">
-                    <div class="col-33">商铺名称</div>
-                    <div class="col-33">商铺状态</div>
-                    <div class="col-33">操作</div>
+                    <div class="col-50">商铺名称</div>
+                    <div class="col-25">商铺状态</div>
+                    <div class="col-25">操作</div>
                 </div>
 
                 <div ng-repeat="shopItem in shopList">
                     <div class="row" style="border: 1px solid lightgray;line-height: 50px;">
-                        <div class="col-33">{{shopItem.shopName}}</div>
-                        <div class="col-33">{{shopItem.enableStatusDesc}}</div>
-                        <div class="col-33" style="color: lightskyblue">进入</div>
+                        <div class="col-50">{{shopItem.shopName}}</div>
+                        <div class="col-25">{{shopItem.enableStatusDesc}}</div>
+                        <div ng-if="shopItem.enableStatus == 1" class="col-25" style="color: lightskyblue">进入</div>
                     </div>
                 </div>
             </div>

@@ -3,12 +3,14 @@ package com.mzc.o2o.web.admin;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.mzc.o2o.entity.Product;
 import com.mzc.o2o.service.ProductService;
+import com.mzc.o2o.util.BindingResultUtil;
 import com.mzc.o2o.util.FileUploadUtil;
 import com.mzc.o2o.vo.ProductQueryCondition;
 import com.mzc.o2o.vo.ProductVo;
 import com.mzc.o2o.vo.ResultVo;
 import com.mzc.o2o.web.common.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -39,8 +42,10 @@ public class ProductController extends BaseController {
      * @return
      */
     @PostMapping("/addProduct")
-    public ResultVo<Product> addProduct(Product product, MultipartFile file) {
-
+    public ResultVo<Product> addProduct(@Valid Product product, MultipartFile file, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return buildFailResultVo(BindingResultUtil.bindResult2Str(bindingResult),0);
+        }
         String url = "";
         if (file != null) {
             url = FileUploadUtil.uploadFile(file);

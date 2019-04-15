@@ -10,18 +10,21 @@ shopApp.controller('shopListCtrl', function ($scope, $http) {
     //区域分类
     $scope.getAreaCat = function () {
         $http.get("/o2o/area/getAll").success(function (data) {
-            $scope.areaList = data.moudule;
+            $scope.areaList = data.moudule[0];
+            console.log($scope.areaList)
         })
     };
 
     //获取商铺状态列表
     $scope.getShopStatusList = function () {
         $http.get("/o2o/common/status/getShopStatusList").success(function (data) {
-            $scope.shopStatusList = data;
+            $scope.shopStatusList = data.moudule;
+            console.log($scope.shopStatusList)
         })
     };
 
     $scope.shopCondition = {
+        //TODO ownerId如何确定
         ownerId:8,
         shopName:'',
         areaId:'',
@@ -29,11 +32,12 @@ shopApp.controller('shopListCtrl', function ($scope, $http) {
     };
 
     $scope.getShopList = function () {
-        //TODO 类型转换
-        $scope.shopCondition.enableStatus = 0;
 
-        $http.post("/o2o/shop/queryByConditionsPage/1/6",$scope.shopCondition).success(function (data) {
+        $http.post("/o2o/shop/queryByConditionsPage/1/60",$scope.shopCondition).success(function (data) {
             $scope.shopList = data.moudule;
+            if(!$scope.shopList){
+                return;
+            }
             for (var i = 0;i<$scope.shopList.length; i++){
                 if($scope.shopList[i].enableStatus === 0){
                     $scope.shopList[i].enableStatusDesc = '待审核';

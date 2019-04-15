@@ -7,6 +7,7 @@ import com.mzc.o2o.enums.ShopStateEnum;
 import com.mzc.o2o.service.AreaService;
 import com.mzc.o2o.service.ShopService;
 import com.mzc.o2o.util.FileUploadUtil;
+import com.mzc.o2o.util.ValidationUtil;
 import com.mzc.o2o.util.VerifyCodeUtil;
 import com.mzc.o2o.vo.ResultVo;
 import com.mzc.o2o.vo.ShopQueryCondition;
@@ -71,6 +72,13 @@ public class ShopController extends BaseController {
         }
         JSONObject jsonObj = JSONObject.fromObject(regShopStr);
         Shop shop = (Shop) JSONObject.toBean(jsonObj, Shop.class);
+
+//        使用校验工具类 TODO TEST
+        ValidationUtil.ValidResult validResult = ValidationUtil.validateBean(shop);
+        if(validResult.hasErrors()){
+            String errors = validResult.getErrors();
+            return buildFailResultVo(errors,0);
+        }
 
         //TODO 商铺的owner是否为当前登陆用户，如果是，就从session获取，取决于业务
 //        PersonInfo personInfo = (PersonInfo)request.getSession().getAttribute("user");

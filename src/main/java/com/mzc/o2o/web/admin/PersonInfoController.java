@@ -3,16 +3,19 @@ package com.mzc.o2o.web.admin;
 import com.mzc.o2o.common.CommonConst;
 import com.mzc.o2o.entity.PersonInfo;
 import com.mzc.o2o.service.PersonInfoService;
+import com.mzc.o2o.util.BindingResultUtil;
 import com.mzc.o2o.vo.ResultVo;
 import com.mzc.o2o.web.common.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -65,7 +68,10 @@ public class PersonInfoController extends BaseController {
      * @return
      */
     @PostMapping("/addPersonInfo")
-    public ResultVo<PersonInfo> addPersonInfo(PersonInfo personInfo){
+    public ResultVo<PersonInfo> addPersonInfo(@Valid PersonInfo personInfo, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return buildFailResultVo(BindingResultUtil.bindResult2Str(bindingResult),0);
+        }
         boolean res = personInfoService.insert(personInfo);
         if(res){
             redisTemplate.opsForList().rightPop(CommonConst.PERSONINFO);

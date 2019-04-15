@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.mzc.o2o.dao.ShopDao;
 import com.mzc.o2o.entity.Shop;
-import com.mzc.o2o.enums.ShopStateEnum;
 import com.mzc.o2o.service.ShopService;
 import com.mzc.o2o.vo.ShopQueryCondition;
 import com.mzc.o2o.vo.ShopVo;
@@ -84,7 +83,8 @@ public class ShopServiceImpl extends ServiceImpl<ShopDao, Shop> implements ShopS
         }
 
 //        审核要通过，才能展示
-        shopWrapper.eq("enable_status", ShopStateEnum.SUCCESS.getState());
+//        shopWrapper.eq("enable_status", ShopStateEnum.SUCCESS.getState());
+
 //        排序
         shopWrapper.orderBy("priority");
         return baseMapper.selectPage(new Page<Shop>(current, size), shopWrapper);

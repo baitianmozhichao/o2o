@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -56,12 +56,12 @@ public class AreaController extends BaseController {
      * @return
      */
     @PostMapping("/addArea")
-    public ResultVo addArea(@Validated Area area, BindingResult bindingResult) {
+    public ResultVo addArea(@Valid Area area, BindingResult bindingResult) {
+        area.setCreateTime(new Date());
+        area.setLastEditTime(new Date());
         if(bindingResult.hasErrors()){
             return buildFailResultVo(BindingResultUtil.bindResult2Str(bindingResult),0);
         }
-        area.setCreateTime(new Date());
-        area.setLastEditTime(new Date());
         boolean result = areaService.insert(area);
         if(result){
             redisTemplate.opsForList().rightPop(CommonConst.AREA);
