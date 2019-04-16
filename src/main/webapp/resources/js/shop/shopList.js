@@ -23,6 +23,7 @@ shopApp.controller('shopListCtrl', function ($scope, $http) {
         })
     };
 
+    //搜索实体
     $scope.shopCondition = {
         //TODO ownerId如何确定
         ownerId:8,
@@ -31,8 +32,8 @@ shopApp.controller('shopListCtrl', function ($scope, $http) {
         enableStatus:''
     };
 
+    //搜索
     $scope.getShopList = function () {
-
         $http.post("/o2o/shop/queryByConditionsPage/1/60",$scope.shopCondition).success(function (data) {
             $scope.shopList = data.moudule;
             if(!$scope.shopList){
@@ -48,6 +49,11 @@ shopApp.controller('shopListCtrl', function ($scope, $http) {
                 }
             }
         })
+    };
+
+    //进入商铺管理
+    $scope.enterManage = function(shopId){
+        window.location.href = "../shop/shopManage.html?shopId="+shopId;
     };
 
     $scope.getShopList();

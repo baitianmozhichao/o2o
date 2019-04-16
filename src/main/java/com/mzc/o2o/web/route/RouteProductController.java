@@ -13,7 +13,11 @@ public class RouteProductController {
 
     @GetMapping("/productList")
     public String productList(){
-
         return "product/productList";
+    }
+
+    @GetMapping("/productCatManage")
+    public String productCatManage(){
+        return "product/productCatManage";
     }
 }

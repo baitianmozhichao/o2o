@@ -49,8 +49,6 @@ shopApp.controller('shopRegCtrl', function ($scope, $http) {
 
     $scope.getShopInfo = function (shopId) {
         $http.get("/o2o/shop/queryShopWithName/" + shopId).success(function (data) {
-            console.log(data)
-            debugger
             $scope.regShop = data.shopVo;
             $scope.areaCatList = data.areaList;
 

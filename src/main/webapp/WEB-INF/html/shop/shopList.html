@@ -92,7 +92,7 @@
                     <div class="row" style="border: 1px solid lightgray;line-height: 50px;">
                         <div class="col-50">{{shopItem.shopName}}</div>
                         <div class="col-25">{{shopItem.enableStatusDesc}}</div>
-                        <div ng-if="shopItem.enableStatus == 1" class="col-25" style="color: lightskyblue">进入</div>
+                        <div ng-click="enterManage(shopItem.shopId)" ng-if="shopItem.enableStatus == 1" class="col-25" style="color: lightskyblue">进入</div>
                     </div>
                 </div>
             </div>

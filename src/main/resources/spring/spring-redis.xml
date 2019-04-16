@@ -23,7 +23,7 @@
    </bean>  
   
    <bean id="JedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" 
-       p:host-name="192.168.25.134" p:port="6379" p:password="" p:pool-config-ref="poolConfig"/>
+       p:host-name="192.168.25.135" p:port="6379" p:password="" p:pool-config-ref="poolConfig"/>
    
    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">  
     	<property name="connectionFactory" ref="JedisConnectionFactory" />  

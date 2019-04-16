@@ -45,7 +45,7 @@ public class BaseController<T> {
 
     public ResultVo<T> buildFailResultVo(T moudule, Integer count) {
         ResultVo<T> resultVo = new ResultVo<>();
-        resultVo.setResultCode("T");
+        resultVo.setResultCode("F");
         resultVo.setResultMsg("返回失败");
         resultVo.setMoudule(moudule);
         resultVo.setCount(count);

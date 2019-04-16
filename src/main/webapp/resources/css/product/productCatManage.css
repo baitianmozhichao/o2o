@@ -1,0 +1,24 @@
+.row-item{
+    border-bottom: 1px solid gray;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 20px;
+    color: gray;
+    text-align: center;
+}
+
+.row-item-title{
+    border-bottom: 1px solid gray;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+.del-item{
+    color: #0894ec;
+}
+.inp-item{
+    margin-top: 15px;
+    margin-left: 10px;
+    text-align: center;
+}

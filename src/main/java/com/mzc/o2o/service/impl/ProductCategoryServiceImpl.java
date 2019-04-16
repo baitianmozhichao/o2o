@@ -6,6 +6,8 @@ import com.mzc.o2o.entity.ProductCategory;
 import com.mzc.o2o.service.ProductCategoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Description:
  * @Auther: mzc
@@ -13,4 +15,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryDao,ProductCategory> implements ProductCategoryService {
+    @Override
+    public List<Integer> getAllProCatIdList(Integer shopId) {
+        return baseMapper.getAllProCatIdList(shopId);
+    }
 }
