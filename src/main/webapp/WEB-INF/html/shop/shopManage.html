@@ -41,14 +41,14 @@
             </a>
             <h1 class="title">商店管理</h1>
         </header>
-        <div class="content">
+        <div class="content" ng-app="shopApp" ng-controller="shopManageCtl">
             <div class="content-padded grid-demo">
                 <div class="row">
                     <div class="col-50 but-item"><a href="#" class="button button-big button-fill button-success">商铺信息</a></div>
                     <div class="col-50 but-item"><a href="#" class="button button-big button-fill button-success">商品管理</a></div>
                 </div>
                 <div class="row">
-                    <div class="col-50 but-item"><a href="#" class="button button-big button-fill button-success">类别管理</a></div>
+                    <div class="col-50 but-item"><a href="#" class="button button-big button-fill button-success" ng-click="toProCatList()">类别管理</a></div>
                 </div>
                 <div class="row">
                     <div class="col-100 but-item"><a href="#" class="button button-big button-fill button-danger">返回</a></div>
