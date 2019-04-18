@@ -6,3 +6,5 @@
 
 图片服务器：FastDfs
 缓存服务器：redis
+
+内网穿透natapp: 执行natapp -authtoken=629ef1a39f591c16 

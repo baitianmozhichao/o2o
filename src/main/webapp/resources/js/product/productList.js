@@ -6,7 +6,8 @@ productApp.controller('productListCtrl', function ($scope, $http,$timeout) {
 
     $scope.roductQueryCondition = {
         key: '',
-        productCategoryId:''
+        productCategoryId:'',
+        shopId:''
     };
 
     //获取url的shopId参数的值
@@ -89,6 +90,7 @@ productApp.controller('productListCtrl', function ($scope, $http,$timeout) {
         }
         timeout=$timeout(function(){
             $scope.roductQueryCondition.key = newVal;
+            $scope.roductQueryCondition.shopId = $scope.shopId;
             $http.post("/o2o/product/getByConditionPage/1/30", $scope.roductQueryCondition).success(function (data) {
                 $scope.productList = data.moudule;
                 if(!$scope.productList){
