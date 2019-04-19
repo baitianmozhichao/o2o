@@ -30,7 +30,7 @@ shopApp.controller('mainPageCtrl', function ($scope, $http) {
 
     //跳转到某根分类下的商铺列表
     $scope.toShopList = function (parentCategoryId) {
-        window.location.href = "../shop/shopListQuery.html?parentCategoryId="+parentCategoryId;
+        window.location.href = "/o2o/route/shop/shopListQuery?parentCategoryId="+parentCategoryId;
     }
 
 });
