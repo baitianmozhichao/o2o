@@ -1,5 +1,6 @@
 package com.mzc.o2o.web.common;
 
+import com.mzc.o2o.vo.ResultLayUiVo;
 import com.mzc.o2o.vo.ResultVo;
 
 /**
@@ -50,5 +51,18 @@ public class BaseController<T> {
         resultVo.setMoudule(moudule);
         resultVo.setCount(count);
         return resultVo;
+    }
+
+    /**
+     * layui需要的数据格式
+     * @param data
+     * @return
+     */
+    public ResultLayUiVo<T> buildResultLayUiVo(T data){
+        return new ResultLayUiVo<>(data);
+    }
+
+    public ResultLayUiVo<T> buildFailResultLayUiVo(){
+        return new ResultLayUiVo<>();
     }
 }

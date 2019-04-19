@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -40,6 +41,6 @@ public class Product {
 
     private Integer productCategoryId;
 
-    @NotBlank(message = "商品所属的商铺Id不能为空")
+    @NotNull(message = "商品所属的商铺Id不能为空")
     private Integer shopId;
 }

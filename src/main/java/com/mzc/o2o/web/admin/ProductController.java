@@ -7,6 +7,7 @@ import com.mzc.o2o.util.BindingResultUtil;
 import com.mzc.o2o.util.FileUploadUtil;
 import com.mzc.o2o.vo.ProductQueryCondition;
 import com.mzc.o2o.vo.ProductVo;
+import com.mzc.o2o.vo.ResultLayUiVo;
 import com.mzc.o2o.vo.ResultVo;
 import com.mzc.o2o.web.common.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,21 @@ public class ProductController extends BaseController {
             url = FileUploadUtil.uploadFile(file);
         }
         product.setImgAddr(url);
+        productService.insert(product);
+        return buildResultVo(product, 1);
+    }
+
+    /**
+     * 添加商品，图片地址
+     * @param product
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("/addProduct2")
+    public ResultVo<Product> addProduct2(@Valid Product product, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return buildFailResultVo(BindingResultUtil.bindResult2Str(bindingResult),0);
+        }
         productService.insert(product);
         return buildResultVo(product, 1);
     }
@@ -122,5 +138,15 @@ public class ProductController extends BaseController {
     public ResultVo<ProductVo> queryByIdWithName(@PathVariable("productId") Integer productId) {
         ProductVo productVo = productService.queryByIdWithName(productId);
         return buildResultVo(productVo, 1);
+    }
+
+    /**
+     * 获取所有商品
+     * @return
+     */
+    @GetMapping("/getAllProduct")
+    public ResultLayUiVo<List<Product>> getAllProduct(){
+        List<Product> productList = productService.selectList(null);
+        return buildResultLayUiVo(productList);
     }
 }
