@@ -1,6 +1,7 @@
 package com.mzc.o2o.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -12,8 +13,9 @@ import java.util.Date;
 
 @Data
 public class PersonInfo implements Serializable {
-    @TableId
-    private Integer userId;
+
+    @TableId(value = "user_id",type = IdType.INPUT)
+    private String userId;
 
     @NotBlank(message = "名字不能为空")
     private String name;

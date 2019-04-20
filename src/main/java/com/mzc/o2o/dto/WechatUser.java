@@ -25,6 +25,7 @@ public class WechatUser implements Serializable {
     private String province;
 
     @JsonProperty("city")
+
     private String city;
 
     @JsonProperty("country")

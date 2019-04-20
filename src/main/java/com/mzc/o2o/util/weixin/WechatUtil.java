@@ -3,6 +3,7 @@ package com.mzc.o2o.util.weixin;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mzc.o2o.common.WeixinConst;
 import com.mzc.o2o.dto.UserAccessToken;
 import com.mzc.o2o.dto.WechatUser;
 import org.slf4j.Logger;
@@ -34,8 +35,8 @@ public class WechatUtil {
      * @throws IOException
      */
     public static UserAccessToken getUserAccessToken(String code) throws IOException {
-        String appId = "wxf1a5a14c7189c018";
-        String appsecret = "36f65832f013575e9738139ee238a988";
+        String appId = WeixinConst.APPID;
+        String appsecret = WeixinConst.APPSECRET;
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId
                 + "&secret=" + appsecret + "&code=" + code + "&grant_type=authorization_code";
         String tokenStr = httpsRequest(url, "GET", null);
