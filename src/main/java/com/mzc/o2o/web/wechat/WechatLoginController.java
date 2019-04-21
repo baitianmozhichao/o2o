@@ -69,6 +69,7 @@ public class WechatLoginController {
                 String accessToken = token.getAccessToken();
                 openId = token.getOpenId();
                 user = WechatUtil.getUserInfo(accessToken, openId);
+//                将当前openId信息存入session
                 request.getSession().setAttribute("openId", openId);
             } catch (IOException e) {
                 log.error("error in getUserAccessToken or getUserInfo or findByOpenId: " + e.toString());
@@ -82,11 +83,15 @@ public class WechatLoginController {
             PersonInfo personInfo = EntityTransUtil.wechatUser2PersonInfo(user, roleType);
 //            关联账号 + 注册
             try {
-                wechatLoginService.registryPersonInfo(personInfo,openId);
+                wechatLoginService.registryPersonInfo(request,personInfo,openId);
             }catch (Exception ex){
                 ex.printStackTrace();
                 System.out.println("openId为空，链接有问题...");
             }
+        }else {
+            wechatAuth = wechatAuthService.selectOne(new EntityWrapper<WechatAuth>().eq("open_id",openId));
+            PersonInfo personInfo = personInfoService.selectById(wechatAuth.getUserId());
+            request.getSession().setAttribute("personInfo",personInfo);
         }
 
 //        根据角色进行路由

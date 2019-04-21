@@ -23,4 +23,9 @@ public class RouteAdminController {
     public String productDetail(){
         return "admin/productDetail";
     }
+
+    @RequestMapping("/accountInfo")
+    public String accountInfo(){
+        return "self/accountInfo";
+    }
 }

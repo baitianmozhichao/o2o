@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -26,12 +27,14 @@ public class WechatLoginServiceImpl implements WechatLoginService {
     private WechatAuthDao wechatAuthDao;
 
     @Override
-    public void registryPersonInfo(PersonInfo personInfo, String openId) {
+    public void registryPersonInfo(HttpServletRequest request, PersonInfo personInfo, String openId) {
         try {
 //        使用uuid生成八位长度的useId
             String userId = UUIDUtil.get8UUID();
             personInfo.setUserId(userId);
             personInfoDao.insert(personInfo);
+//            将当前账号信息存入session
+            request.getSession().setAttribute("personInfo",personInfo);
             WechatAuth wechatAuth = new WechatAuth();
             wechatAuth.setOpenId(openId);
             wechatAuth.setUserId(userId);

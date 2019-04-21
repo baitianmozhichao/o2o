@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -78,5 +79,31 @@ public class PersonInfoController extends BaseController {
             return buildResultVo(personInfo, 1);
         }
         return buildEmptyResultVo();
+    }
+
+    /**
+     * 获取当前账号信息
+     * @param request
+     * @return
+     */
+    @GetMapping("/getCurrentPersonInfo")
+    public PersonInfo getCurrentPersonInfo(HttpServletRequest request){
+        PersonInfo personInfo = (PersonInfo)request.getSession().getAttribute("personInfo");
+        return personInfo;
+    }
+
+    /**
+     * 更新个人信息
+     * @param request
+     * @param personInfo
+     * @return
+     */
+    @PostMapping("/updatePersonInfo")
+    public ResultVo<Boolean> updatePersonInfo(HttpServletRequest request, PersonInfo personInfo){
+        PersonInfo pi = (PersonInfo)request.getSession().getAttribute("personInfo");
+        personInfo.setUserId(pi.getUserId());
+        personInfoService.updateById(personInfo);
+        request.getSession().setAttribute("personInfo",personInfo);
+        return buildResultVo(true,1);
     }
 }
